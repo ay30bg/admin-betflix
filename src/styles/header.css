@@ -21,7 +21,7 @@
   transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-.logout-btn {
+.back-to-site {
   padding: 8px 20px;
   background: transparent;
   color: black;
@@ -30,6 +30,6 @@
   transition: background-color 0.3s;
 }
 
-.logout-btn:hover {
+.back-to-site:hover {
  text-decoration: underline;
 }
