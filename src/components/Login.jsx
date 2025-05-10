@@ -102,7 +102,7 @@ function Login() {
           Don't have an account? <a href="/sign-up">Sign Up</a>
         </p>
       </form>
-     
+     <div className='footer'>ttytttttttttttttttttttttttttttttttttttt</div>
     </div>
   );
 }
