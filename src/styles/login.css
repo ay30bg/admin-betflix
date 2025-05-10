@@ -41,6 +41,7 @@
   width: 100%;
   max-width: 400px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin:0 auto;
 }
 
 .form-group {
