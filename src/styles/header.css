@@ -1,31 +1,34 @@
 /* header.css */
 
-/* Header container */
+/* Full-screen header */
 .header {
-    position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0.95), rgba(245, 247, 250, 0.95));
-  backdrop-filter: blur(8px); /* Glassmorphism effect */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-  border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+    background-color: #1a1a1a; /* Dark background for professional look */
+    width: 100vw; /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    display: flex; /* Flexbox for centering content */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    position: fixed; /* Fixed to stay in place */
+    top: 0;
+    left: 0;
+    z-index: 1000; /* Ensure header stays above other content */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    overflow: hidden; /* Prevent scrollbars */
 }
 
 /* Inner container for header content */
 .header-container {
-    max-width: 1200px; /* Constrain width for larger screens */
-    margin: 0 auto; /* Center the container */
+    max-width: 1200px; /* Constrain content width for larger screens */
+    width: 100%; /* Ensure container spans available width */
     display: flex;
     justify-content: space-between; /* Space out logo and link */
     align-items: center; /* Vertically center content */
-    padding: 0 1.5rem; /* Horizontal padding */
+    padding: 0 2rem; /* Horizontal padding */
 }
 
 /* Logo styling */
 .header-logo {
-    font-size: 1.8rem; /* Larger font for logo */
+    font-size: 2.5rem; /* Larger font for prominence in full-screen */
     font-weight: 700; /* Bold for emphasis */
     color: #ffffff; /* White text for contrast */
     text-decoration: none; /* Remove underline */
@@ -38,12 +41,12 @@
 
 /* Back to Main Site link styling */
 .auth-main-site-link {
-    font-size: 1rem; /* Standard font size */
+    font-size: 1.2rem; /* Slightly larger for visibility */
     color: #ffffff; /* White text for contrast */
     text-decoration: none; /* Remove underline */
-    padding: 0.5rem 1rem; /* Padding for clickable area */
-    border: 1px solid #ffffff; /* White border for button-like appearance */
-    border-radius: 4px; /* Rounded corners */
+    padding: 0.75rem 1.5rem; /* Larger padding for clickable area */
+    border: 2px solid #ffffff; /* Thicker white border for button-like appearance */
+    border-radius: 6px; /* Slightly more rounded corners */
     transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
 }
 
@@ -56,26 +59,27 @@
 @media (max-width: 768px) {
     .header-container {
         flex-direction: column; /* Stack logo and link vertically */
-        gap: 1rem; /* Space between elements */
+        gap: 1.5rem; /* Increased space between elements */
         padding: 1rem; /* Adjust padding */
     }
 
     .header-logo {
-        font-size: 1.5rem; /* Slightly smaller logo */
+        font-size: 2rem; /* Slightly smaller logo */
     }
 
     .auth-main-site-link {
-        font-size: 0.9rem; /* Slightly smaller text */
-        padding: 0.4rem 0.8rem; /* Adjust padding */
+        font-size: 1rem; /* Slightly smaller text */
+        padding: 0.6rem 1.2rem; /* Adjust padding */
     }
 }
 
 @media (max-width: 480px) {
     .header-logo {
-        font-size: 1.3rem; /* Even smaller logo for very small screens */
+        font-size: 1.5rem; /* Smaller logo for very small screens */
     }
 
     .auth-main-site-link {
-        font-size: 0.85rem; /* Smaller text */
+        font-size: 0.9rem; /* Smaller text */
+        padding: 0.5rem 1rem; /* Further adjust padding */
     }
 }
