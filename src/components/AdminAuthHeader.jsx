@@ -17,4 +17,4 @@ function AdminAuthHeader() {
     );
 }
 
-export default function AdminAuthHeader;
+export default AdminAuthHeader;
