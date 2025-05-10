@@ -3,9 +3,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 .signup-page {
-  display: block;
-  background: #D5DCE9 ;
-  font-family: 'Inter', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); /* Matches Profile/Login gradient */
+  padding: 2rem 1rem;
+  font-family: 'Inter', sans-serif; /* Matches Profile/Login body font */
 }
 
 .signup-header {
@@ -26,8 +31,11 @@
   width: 100%;
   max-width: 400px;
   transition: transform 0.2s ease, box-shadow 0.2s ease; /* Matches Profile/Login card transition */
-  margin:0 auto;
-  margin-bottom: 25px;
+}
+
+.signup-form:hover {
+  transform: translateY(-2px); /* Matches Profile/Login card hover effect */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Matches Profile/Login card hover shadow */
 }
 
 .form-group {
@@ -76,6 +84,7 @@
 
 .signup-button:hover:not(:disabled) {
   background: #1e3a8a; /* Matches Profile/Login primary button hover */
+  transform: translateY(-2px); /* Matches Profile/Login button hover effect */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Matches Profile/Login button hover shadow */
 }
 
@@ -167,7 +176,7 @@
   font-family: 'Inter', sans-serif; /* Matches Profile spinner font */
 }
 
-.back-btns{
+.back-btn{
     width: 100%;
     height: 50px;
     border-radius: 8px;
