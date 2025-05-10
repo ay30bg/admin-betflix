@@ -104,7 +104,7 @@ function Login() {
         </p>
       </form>
       <button
-        className="back-btn"
+        className="back-btns"
         onClick={handleBack}
         disabled={isLoading}
         aria-label="Back to Home"
