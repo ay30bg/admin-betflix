@@ -215,9 +215,9 @@
 }
 
 @media (max-width: 480px) {
-/*   .login-page {
-    padding: 1.5rem 0.75rem;
-  } */
+  .login-page {
+   width: 100%;
+  }
 
   .login-header {
     font-size: 1.8rem;
