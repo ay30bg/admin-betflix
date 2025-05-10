@@ -1,5 +1,12 @@
 /* header.css */
 
+/* Reset default margins and ensure box-sizing */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 /* Header fixed to the top */
 .header {
     background-color: #1a1a1a; /* Dark background for professional look */
