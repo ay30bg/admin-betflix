@@ -4,19 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import '../styles/header.css';
 
 function AdminAuthHeader() {
-  // const { logout } = useAuth();
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    navigate('/');
-  };
 
   return (
     <header className="header">
       <div className="logo">BetFlix</div>
-      <button className="logout-btn" onClick={handleLogout}>
-        Logout
-      </button>
+      <a className="logout-btn">
+        Back to Main Site
+      </a>
     </header>
   );
 }
