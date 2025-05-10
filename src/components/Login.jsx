@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
-import AdminAuthHeader from './AdminAuthHeader'
-import '../styles/login.css'
+import AdminAuthHeader from './AdminAuthHeader';
+import '../styles/login.css';
 
 
 
