@@ -18,7 +18,7 @@ function App() {
         <Routes>
           {/* Login route without Dashboard/sidebar */}
           <Route path="/" element={<Login />} />
-          <Route path="/sign-up" element={<Login />} />
+          <Route path="/sign-up" element={<SignUp />} />
           
           {/* Dashboard route with nested routes */}
           <Route path="dashboard" element={<Dashboard />}>
