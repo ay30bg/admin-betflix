@@ -1,101 +1,36 @@
-/* header.css */
-
-/* Reset default margins and ensure box-sizing */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* Ensure the body allows fixed positioning */
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden; /* Prevent horizontal scroll */
-}
-
-/* Header fixed to the top */
 .header {
-    background-color: #1a1a1a; /* Dark background for contrast */
-    width: 100vw; /* Full viewport width */
-    height: 70px; /* Standard header height */
-    position: fixed; /* Fixed to the top */
-    top: 0;
-    left: 0;
-    z-index: 1000; /* Ensure header stays above other content */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    display: flex; /* Flexbox for layout */
-    align-items: center; /* Vertically center content */
+  background-color: white;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
-/* Inner container for header content */
-.header-container {
-    max-width: 1200px; /* Constrain content width for larger screens */
-    width: 100%; /* Span available width */
-    margin: 0 auto; /* Center the container */
-    display: flex;
-    justify-content: space-between; /* Space out logo and link */
-    align-items: center; /* Vertically center content */
-    padding: 0 1.5rem; /* Horizontal padding */
+.logo {
+  font-size: 1.75rem;
+  font-weight: 800;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: linear-gradient(90deg, #3b82f6, #1e40af);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-decoration: none;
+  transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-/* Logo styling */
-.header-logo {
-    font-size: 1.8rem; /* Suitable font size for header */
-    font-weight: 700; /* Bold for emphasis */
-    color: #ffffff; /* White text for contrast */
-    text-decoration: none; /* Remove underline */
-    transition: color 0.3s ease; /* Smooth color transition on hover */
+.logout-btn {
+  padding: 8px 20px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.header-logo:hover {
-    color: #cccccc; /* Light gray on hover for subtle feedback */
-}
-
-/* Back to Main Site link styling */
-.auth-main-site-link {
-    font-size: 1rem; /* Standard font size */
-    color: #ffffff; /* White text for contrast */
-    text-decoration: none; /* Remove underline */
-    padding: 0.5rem 1rem; /* Padding for clickable area */
-    border: 1px solid #ffffff; /* White border for button-like appearance */
-    border-radius: 4px; /* Rounded corners */
-    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
-}
-
-.auth-main-site-link:hover {
-    background-color: #ffffff; /* White background on hover */
-    color: #1a1a1a; /* Dark text for contrast */
-}
-
-/* Responsive design for smaller screens */
-@media (max-width: 768px) {
-    .header {
-        height: 60px; /* Slightly shorter header */
-    }
-
-    .header-container {
-        padding: 0 1rem; /* Reduce padding */
-    }
-
-    .header-logo {
-        font-size: 1.5rem; /* Slightly smaller logo */
-    }
-
-    .auth-main-site-link {
-        font-size: 0.9rem; /* Slightly smaller text */
-        padding: 0.4rem 0.8rem; /* Adjust padding */
-    }
-}
-
-@media (max-width: 480px) {
-    .header-logo {
-        font-size: 1.3rem; /* Smaller logo for very small screens */
-    }
-
-    .auth-main-site-link {
-        font-size: 0.85rem; /* Smaller text */
-        padding: 0.3rem 0.7rem; /* Further adjust padding */
-    }
+.logout-btn:hover {
+  background-color: #c0392b;
 }
