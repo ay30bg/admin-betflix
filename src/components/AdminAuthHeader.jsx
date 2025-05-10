@@ -1,20 +1,23 @@
-import { Link } from 'react-router-dom';
-import { FaPhone } from 'react-icons/fa';
-import '../styles/header.css';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+// import { useAuth } from '../context/AuthContext';
 
 function AdminAuthHeader() {
-    return (
-        <header className="header">
-            <div className="header-container">
-                <Link to="/" className="header-logo" aria-label="BetFlix Home">
-                    BetFlix
-                </Link>
-                <Link to="/support" className="auth-help-link">
-                     <p>Support <FaPhone className='phone-icon' /></p>
-                </Link>
-            </div>
-        </header>
-    );
+  // const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    navigate('/');
+  };
+
+  return (
+    <header className="header">
+      <div className="logo">BetFlix</div>
+      <button className="logout-btn" onClick={handleLogout}>
+        Logout
+      </button>
+    </header>
+  );
 }
 
 export default AdminAuthHeader;
