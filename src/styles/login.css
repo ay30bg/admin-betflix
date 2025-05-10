@@ -20,14 +20,14 @@
 
 .login-page {
   display: block;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: #D5DCE9 ;
   font-family: 'Inter', sans-serif;
 } 
 
 .login-header {
   font-size: 2.75rem;
   font-weight: 700;
-  color: #1e40af; /* Matches Profile heading color */
+  color: #1e40af; 
   margin-bottom: 1.5rem;
   text-align: center;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Matches Profile heading shadow */
@@ -172,7 +172,7 @@
 
 .footer{
     width: 100%;
-     background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    background: #D5DCE9;
     height: 80px;
 }
 
