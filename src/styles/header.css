@@ -1,0 +1,80 @@
+/* header.css */
+
+/* Header container */
+.header {
+    background-color: #1a1a1a; /* Dark background for a professional look */
+    padding: 1rem 0;
+    width: 100%;
+    position: fixed; /* Fixed header for consistent visibility */
+    top: 0;
+    left: 0;
+    z-index: 1000; /* Ensure header stays above other content */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+/* Inner container for header content */
+.header-container {
+    max-width: 1200px; /* Constrain width for larger screens */
+    margin: 0 auto; /* Center the container */
+    display: flex;
+    justify-content: space-between; /* Space out logo and link */
+    align-items: center; /* Vertically center content */
+    padding: 0 1.5rem; /* Horizontal padding */
+}
+
+/* Logo styling */
+.header-logo {
+    font-size: 1.8rem; /* Larger font for logo */
+    font-weight: 700; /* Bold for emphasis */
+    color: #ffffff; /* White text for contrast */
+    text-decoration: none; /* Remove underline */
+    transition: color 0.3s ease; /* Smooth color transition on hover */
+}
+
+.header-logo:hover {
+    color: #cccccc; /* Light gray on hover for subtle feedback */
+}
+
+/* Back to Main Site link styling */
+.auth-main-site-link {
+    font-size: 1rem; /* Standard font size */
+    color: #ffffff; /* White text for contrast */
+    text-decoration: none; /* Remove underline */
+    padding: 0.5rem 1rem; /* Padding for clickable area */
+    border: 1px solid #ffffff; /* White border for button-like appearance */
+    border-radius: 4px; /* Rounded corners */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
+}
+
+.auth-main-site-link:hover {
+    background-color: #ffffff; /* White background on hover */
+    color: #1a1a1a; /* Dark text for contrast */
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+    .header-container {
+        flex-direction: column; /* Stack logo and link vertically */
+        gap: 1rem; /* Space between elements */
+        padding: 1rem; /* Adjust padding */
+    }
+
+    .header-logo {
+        font-size: 1.5rem; /* Slightly smaller logo */
+    }
+
+    .auth-main-site-link {
+        font-size: 0.9rem; /* Slightly smaller text */
+        padding: 0.4rem 0.8rem; /* Adjust padding */
+    }
+}
+
+@media (max-width: 480px) {
+    .header-logo {
+        font-size: 1.3rem; /* Even smaller logo for very small screens */
+    }
+
+    .auth-main-site-link {
+        font-size: 0.85rem; /* Smaller text */
+    }
+}
