@@ -1,19 +1,23 @@
-import { Link } from 'react-router-dom';
-import '../styles/header.css';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+// import { useAuth } from '../context/AuthContext';
 
 function AdminAuthHeader() {
-    return (
-        <header className="header">
-            <div className="header-container">
-                <Link to="/admin" className="header-logo" aria-label="Company Admin Home">
-                    Company Admin
-                </Link>
-                <Link to="/" className="auth-main-site-link">
-                    Back to Main Site
-                </Link>
-            </div>
-        </header>
-    );
+  // const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    navigate('/');
+  };
+
+  return (
+    <header className="header">
+      <div className="logo">BetFlix</div>
+      <button className="logout-btn" onClick={handleLogout}>
+        Logout
+      </button>
+    </header>
+  );
 }
 
-export default AdminAuthHeader;
+export default Header;
