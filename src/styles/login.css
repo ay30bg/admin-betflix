@@ -21,16 +21,6 @@
   margin: 0;
 }
 
-.login-header {
-  font-size: 2.75rem;
-  font-weight: 700;
-  color: #1e40af;
-  margin-bottom: 1.5rem;
-  text-align: center;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  font-family: 'Poppins', sans-serif;
-}
-
 .login-form {
   background: #ffffff;
   padding: 2rem;
