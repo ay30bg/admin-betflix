@@ -40,10 +40,6 @@ function Login() {
     }, 1000); // Simulate network delay
   };
 
-  const handleBack = () => {
-    navigate('/dashboard'); // Mock home page
-  };
-
   return (
     <div className="login-page container">
       <h1 className="login-header">Admin Login</h1>
@@ -103,14 +99,7 @@ function Login() {
           Don't have an account? <a href="/sign-up">Sign Up</a>
         </p>
       </form>
-      <button
-        className="back-btns"
-        onClick={handleBack}
-        disabled={isLoading}
-        aria-label="Back to Home"
-      >
-        Back to Home
-      </button>
+     
     </div>
   );
 }
