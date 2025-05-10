@@ -186,7 +186,7 @@ function Signup() {
             >
                 Back to Home
             </button>
-            {/* <a href="/" className="back-link">
+            {/* <a href="/dashboard" className="back-link">
         Back to Home
       </a> */}
         </div>
