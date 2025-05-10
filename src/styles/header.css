@@ -1,124 +1,36 @@
-/* header.css */
-
-/* Import fonts */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
-
-/* Reset default margins and ensure box-sizing */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* Ensure the body allows fixed positioning */
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden; /* Prevent horizontal scroll */
-}
-
-/* Header fixed to the top */
 .header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0.95), rgba(245, 247, 250, 0.95));
-    backdrop-filter: blur(8px); /* Glassmorphism effect */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    border-bottom: 1px solid rgba(226, 232, 240, 0.5);
-    height: 70px; /* Standard header height */
-    display: flex;
-    align-items: center;
+  background-color: white;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
-/* Inner container for header content */
-.header-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1280px;
-    width: 100%;
-    margin: 0 auto;
-    padding: 1rem 1.5rem;
+.logo {
+  font-size: 1.75rem;
+  font-weight: 800;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: linear-gradient(90deg, #3b82f6, #1e40af);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-decoration: none;
+  transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-/* Logo */
-.header-logo {
-    font-size: 1.75rem;
-    font-weight: 800;
-    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: linear-gradient(90deg, #3b82f6, #1e40af);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-decoration: none;
-    transition: transform 0.2s ease, opacity 0.2s ease;
+.logout-btn {
+  padding: 8px 20px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.header-logo:hover,
-.header-logo:focus-visible {
-    opacity: 0.9;
-    transform: translateY(-1px);
-}
-
-.header-logo:focus-visible {
-    outline: 2px solid #1e40af;
-    outline-offset: 2px;
-    border-radius: 4px;
-}
-
-/* Back to Main Site link */
-.auth-main-site-link {
-    font-size: 1rem;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    color: #3b82f6;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    border: 1px solid #3b82f6;
-    border-radius: 4px;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.auth-main-site-link:hover,
-.auth-main-site-link:focus-visible {
-    background-color: #3b82f6;
-    color: #ffffff;
-}
-
-.auth-main-site-link:focus-visible {
-    outline: 2px solid #1e40af;
-    outline-offset: 2px;
-}
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-    .header {
-        height: 60px; /* Slightly shorter header */
-    }
-
-    .header-container {
-        padding: 0.75rem 1rem;
-    }
-
-    .header-logo {
-        font-size: 1.5rem;
-    }
-
-    .auth-main-site-link {
-        font-size: 0.9rem;
-        padding: 0.4rem 0.8rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .header-logo {
-        font-size: 1.25rem;
-    }
-
-    .auth-main-site-link {
-        font-size: 0.85rem;
-        padding: 0.3rem 0.7rem;
-    }
+.logout-btn:hover {
+  background-color: #c0392b;
 }
