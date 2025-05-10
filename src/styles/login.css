@@ -19,6 +19,7 @@
 }  */
 
 .login-page {
+  display: block;
   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   font-family: 'Inter', sans-serif;
 } 
@@ -116,39 +117,6 @@
 
 .login-form a:hover {
   text-decoration: underline;
-}
-
-.back-btns {
-  max-width: 400px;
-  width: 100%;
-  height: 50px;
-  border-radius: 8px;
-  margin: 20px auto;
-  background-color: #ef4444;
-  color: #fff;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  cursor: pointer;
-  font-size: 1.1rem;
-  font-weight: 600;
-  font-family: 'Poppins', sans-serif;
-  text-transform: uppercase;
-  transition: background 0.2s, transform 0.2s;
-  text-decoration: none;
-}
-
-.back-btns:hover:not(:disabled) {
-  background: #dc2626;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  color: white;
-}
-
-.back-btns:disabled {
-  background: #9ca3af;
-  cursor: not-allowed;
-  opacity: 0.6;
 }
 
 .password-wrapper {
