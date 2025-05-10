@@ -26,6 +26,7 @@
   width: 100%;
   max-width: 400px;
   transition: transform 0.2s ease, box-shadow 0.2s ease; /* Matches Profile/Login card transition */
+  margin:0 auto;
 }
 
 .form-group {
