@@ -112,6 +112,7 @@ function Signup() {
                     {notification.message}
                 </div>
             )}
+            <AdminAuthHeader />
             <h1 className="signup-header">Admin Sign Up</h1>
             <form onSubmit={handleSubmit} className="signup-form">
                 <div className="form-group">
