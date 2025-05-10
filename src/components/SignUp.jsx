@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import AdminAuthHeader from './AdminAuthHeader';
 import '../styles/signup.css';
 
 function Signup() {
