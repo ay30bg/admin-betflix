@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import AdminAuthHeader from './AdminAuthHeader';
 import '../styles/signup.css';
 
 function Signup() {
@@ -112,7 +111,6 @@ function Signup() {
                     {notification.message}
                 </div>
             )}
-            <AdminAuthHeader />
             <h1 className="signup-header">Admin Sign Up</h1>
             <form onSubmit={handleSubmit} className="signup-form">
                 <div className="form-group">
