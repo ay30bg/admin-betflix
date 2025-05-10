@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
+import AdminAuthHeader from './AdminAuthHeader'
 import '../styles/login.css'
 
 
@@ -42,6 +43,7 @@ function Login() {
 
   return (
     <div className="login-page container">
+      <AdminAuthHeader />
       <h1 className="login-header">Admin Login</h1>
       <form onSubmit={handleSubmit} className="login-form">
         <div className="form-group">
