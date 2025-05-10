@@ -3,14 +3,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 .signup-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); /* Matches Profile/Login gradient */
-  padding: 2rem 1rem;
-  font-family: 'Inter', sans-serif; /* Matches Profile/Login body font */
+  display: block;
+  background: #D5DCE9 ;
+  font-family: 'Inter', sans-serif;
 }
 
 .signup-header {
