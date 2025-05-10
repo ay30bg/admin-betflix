@@ -12,7 +12,6 @@ function Signup() {
         email: '',
         password: '',
         confirmPassword: '',
-        referral: '',
     });
 
     // State for errors and loading
@@ -99,12 +98,7 @@ function Signup() {
         }
     };
 
-     // Handle back button click
-  const handleBack = () => {
-    navigate('/');
-  };
-
-
+     
     return (
         <div className="signup-page container">
             {isLoading && (
@@ -180,15 +174,7 @@ function Signup() {
                     Already have an account? <a href="/">Login</a>
                 </p>
             </form>
-            <button 
-            className='back-btns'
-            onClick={handleBack}
-            >
-                Back to Home
-            </button>
-            {/* <a href="/dashboard" className="back-link">
-        Back to Home
-      </a> */}
+            
         </div>
     );
 }
