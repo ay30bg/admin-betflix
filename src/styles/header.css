@@ -7,9 +7,17 @@
     box-sizing: border-box;
 }
 
+/* Ensure the body allows fixed positioning */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
 /* Header fixed to the top */
 .header {
-    background-color: #1a1a1a; /* Dark background for professional look */
+    background-color: #1a1a1a; /* Dark background for contrast */
     width: 100vw; /* Full viewport width */
     height: 70px; /* Standard header height */
     position: fixed; /* Fixed to the top */
