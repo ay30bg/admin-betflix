@@ -42,7 +42,6 @@ function Login() {
   };
 
   return (
-     <AdminAuthHeader />
     <div className="login-page container">
       <AdminAuthHeader />
       <h1 className="login-header">Admin Login</h1>
