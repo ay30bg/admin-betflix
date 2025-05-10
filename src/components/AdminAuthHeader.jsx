@@ -8,7 +8,7 @@ function AdminAuthHeader() {
   return (
     <header className="header">
       <div className="logo">BetFlix</div>
-      <a className="logout-btn">
+      <a className="back-to-site">
         Back to Main Site
       </a>
     </header>
