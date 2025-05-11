@@ -133,46 +133,103 @@
 
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getRounds, setLowestStakeOutcome } from '../services/api';
+import { useNavigate } from 'react-router-dom';
+import { fetchCurrentRound, fetchBetResult, setManualRoundOutcome } from '../services/api';
 import ResultForm from './ResultForm';
 
-function RoundList({ onSelectRound }) {
+function RoundList() {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [error, setError] = useState('');
   const [isManualModalOpen, setIsManualModalOpen] = useState(false);
   const [manualRoundPeriod, setManualRoundPeriod] = useState(null);
 
-  const { data: rounds, isLoading } = useQuery({
-    queryKey: ['rounds'],
-    queryFn: getRounds,
+  const { data: currentRound, isLoading: isCurrentLoading } = useQuery({
+    queryKey: ['currentRound'],
+    queryFn: fetchCurrentRound,
     onError: (err) => {
-      const errorMessage = err.error || 'Failed to fetch rounds';
+      const errorMessage = err.error || 'Failed to fetch current round';
       setError(errorMessage);
-      setTimeout(() => setError(''), 5000);
+      if (errorMessage.includes('Unauthorized') || errorMessage.includes('Invalid token')) {
+        setTimeout(() => {
+          localStorage.removeItem('adminToken');
+          navigate('/');
+        }, 3000);
+      } else {
+        setTimeout(() => setError(''), 5000);
+      }
     },
   });
 
-  const setLowestStakeMutation = useMutation({
-    mutationFn: (period) => setLowestStakeOutcome(period),
-    onSuccess: (result, period) => {
-      queryClient.setQueryData(['rounds'], (old) =>
-        old.map((round) =>
-          round.period === period ? { ...round, result } : round
-        )
+  const { data: recentRounds, isLoading: isRecentLoading } = useQuery({
+    queryKey: ['recentRounds'],
+    queryFn: async () => {
+      const now = Date.now();
+      const roundDuration = 60 * 1000;
+      const periods = [
+        `round-${Math.floor((now - roundDuration) / roundDuration) * roundDuration}`,
+        `round-${Math.floor((now - 2 * roundDuration) / roundDuration) * roundDuration}`,
+      ];
+      const results = await Promise.all(
+        periods.map(async (period) => {
+          try {
+            const result = await fetchBetResult(period);
+            return {
+              period,
+              expiresAt: new Date(parseInt(period.split('-')[1]) + roundDuration).toISOString(),
+              resultNumber: result.bet.resultNumber,
+              resultColor: result.bet.resultColor,
+            };
+          } catch (err) {
+            return null;
+          }
+        })
+      );
+      return results.filter((result) => result);
+    },
+    onError: (err) => {
+      const errorMessage = err.error || 'Failed to fetch recent rounds';
+      setError(errorMessage);
+      if (errorMessage.includes('Unauthorized') || errorMessage.includes('Invalid token')) {
+        setTimeout(() => {
+          localStorage.removeItem('adminToken');
+          navigate('/');
+        }, 3000);
+      } else {
+        setTimeout(() => setError(''), 5000);
+      }
+    },
+  });
+
+  const setManualOutcomeMutation = useMutation({
+    mutationFn: ({ period, result }) => setManualRoundOutcome(period, result),
+    onSuccess: (result, { period }) => {
+      queryClient.setQueryData(['recentRounds'], (old) =>
+        old ? old.map((r) => (r.period === period ? { ...r, resultNumber: result.resultNumber, resultColor: result.resultColor } : r)) : old
+      );
+      queryClient.setQueryData(['currentRound'], (old) =>
+        old && old.period === period ? { ...old, result } : old
       );
       setError('');
+      closeManualSetModal();
     },
     onError: (err) => {
       const errorMessage = err.error || 'Failed to set outcome';
       setError(errorMessage);
-      setTimeout(() => setError(''), 5000);
+      if (errorMessage.includes('Unauthorized') || errorMessage.includes('Invalid token')) {
+        setTimeout(() => {
+          localStorage.removeItem('adminToken');
+          navigate('/');
+        }, 3000);
+      } else {
+        setTimeout(() => setError(''), 5000);
+      }
     },
   });
 
   const openManualSetModal = (period) => {
     setManualRoundPeriod(period);
     setIsManualModalOpen(true);
-    onSelectRound(period);
   };
 
   const closeManualSetModal = () => {
@@ -181,15 +238,22 @@ function RoundList({ onSelectRound }) {
   };
 
   const handleSetResult = (period, result) => {
-    queryClient.setQueryData(['rounds'], (old) =>
-      old.map((round) =>
-        round.period === period ? { ...round, result } : round
-      )
-    );
-    closeManualSetModal();
+    setManualOutcomeMutation.mutate({ period, result });
   };
 
-  if (isLoading) {
+  const rounds = currentRound
+    ? [
+        {
+          period: currentRound.period,
+          expiresAt: currentRound.expiresAt,
+          resultNumber: currentRound.result?.resultNumber,
+          resultColor: currentRound.result?.resultColor,
+        },
+        ...(recentRounds || []),
+      ]
+    : recentRounds || [];
+
+  if (isCurrentLoading || isRecentLoading) {
     return <div className="loading-spinner" aria-live="polite">Loading...</div>;
   }
 
@@ -206,32 +270,24 @@ function RoundList({ onSelectRound }) {
           </tr>
         </thead>
         <tbody>
-          {rounds && rounds.length > 0 ? (
+          {rounds.length > 0 ? (
             rounds.map((round) => (
               <tr key={round.period}>
                 <td>{round.period}</td>
                 <td>{new Date(round.expiresAt).toLocaleString()}</td>
                 <td>
-                  {round.result
-                    ? `${round.result.resultNumber} (${round.result.resultColor})`
+                  {round.resultNumber !== undefined && round.resultColor
+                    ? `${round.resultNumber} (${round.resultColor})`
                     : 'Not Set'}
                 </td>
                 <td>
                   <button
-                    onClick={() => setLowestStakeMutation.mutate(round.period)}
-                    disabled={round.result !== null || setLowestStakeMutation.isLoading}
-                    aria-label={`Set lowest stake outcome for ${round.period}`}
-                    className="action-btn auto-outcome-btn"
-                  >
-                    Auto Outcome
-                  </button>
-                  <button
                     onClick={() => openManualSetModal(round.period)}
-                    disabled={round.result !== null}
-                    aria-label={`Set results manually for ${round.period}`}
+                    disabled={round.resultNumber !== undefined || round.resultColor}
+                    aria-label={`Set result for ${round.period}`}
                     className="action-btn manual-btn"
                   >
-                    Manual Set
+                    Set Result
                   </button>
                 </td>
               </tr>
