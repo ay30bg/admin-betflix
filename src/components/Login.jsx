@@ -221,7 +221,7 @@ function Login() {
           {isLoading ? 'Logging in...' : 'Login'}
         </button>
         <p>
-          Don't have an account? <a href="/signup">Sign Up</a>
+          Don't have an account? <a href="/sign-up">Sign Up</a>
         </p>
       </form>
       <div className="footer"></div>
