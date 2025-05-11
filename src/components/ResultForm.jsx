@@ -11,8 +11,9 @@ function ResultForm({ period, onClose, onSetResult }) {
       setError('Please provide both number and color');
       return;
     }
-    if (!Number.isInteger(Number(resultNumber)) || Number(resultNumber) < 0 || Number(resultNumber) > 9) {
-      setError('Number must be between 0 and 9');
+    const number = Number(resultNumber);
+    if (!Number.isInteger(number) || number < 0 || number > 9) {
+      setError('Number must be an integer between 0 and 9');
       return;
     }
     if (!['Green', 'Red'].includes(resultColor)) {
@@ -20,7 +21,8 @@ function ResultForm({ period, onClose, onSetResult }) {
       return;
     }
 
-    onSetResult(period, { resultNumber: Number(resultNumber), resultColor });
+    console.log('Submitting result:', { period, resultNumber: number, resultColor });
+    onSetResult(period, { resultNumber: number, resultColor });
   };
 
   return (
@@ -37,6 +39,7 @@ function ResultForm({ period, onClose, onSetResult }) {
             value={resultNumber}
             onChange={(e) => setResultNumber(e.target.value)}
             required
+            aria-label="Result number"
           />
         </div>
         <div>
@@ -45,6 +48,7 @@ function ResultForm({ period, onClose, onSetResult }) {
             value={resultColor}
             onChange={(e) => setResultColor(e.target.value)}
             required
+            aria-label="Result color"
           >
             <option value="">Select Color</option>
             <option value="Green">Green</option>
