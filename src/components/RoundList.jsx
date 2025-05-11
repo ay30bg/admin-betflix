@@ -149,6 +149,7 @@ function RoundList() {
     queryFn: fetchCurrentRound,
     onError: (err) => {
       const errorMessage = err.error || 'Failed to fetch current round';
+      console.error('fetchCurrentRound error:', err);
       setError(errorMessage);
       if (errorMessage.includes('Unauthorized') || errorMessage.includes('Invalid token')) {
         setTimeout(() => {
@@ -177,10 +178,11 @@ function RoundList() {
             return {
               period,
               expiresAt: new Date(parseInt(period.split('-')[1]) + roundDuration).toISOString(),
-              resultNumber: result.bet.resultNumber,
-              resultColor: result.bet.resultColor,
+              resultNumber: result.bet?.resultNumber,
+              resultColor: result.bet?.resultColor,
             };
           } catch (err) {
+            console.warn('fetchBetResult failed for period:', period, err);
             return null;
           }
         })
@@ -189,6 +191,7 @@ function RoundList() {
     },
     onError: (err) => {
       const errorMessage = err.error || 'Failed to fetch recent rounds';
+      console.error('recentRounds error:', err);
       setError(errorMessage);
       if (errorMessage.includes('Unauthorized') || errorMessage.includes('Invalid token')) {
         setTimeout(() => {
@@ -204,17 +207,19 @@ function RoundList() {
   const setManualOutcomeMutation = useMutation({
     mutationFn: ({ period, result }) => setManualRoundOutcome(period, result),
     onSuccess: (result, { period }) => {
+      console.log('setManualOutcome success:', { period, result });
       queryClient.setQueryData(['recentRounds'], (old) =>
         old ? old.map((r) => (r.period === period ? { ...r, resultNumber: result.resultNumber, resultColor: result.resultColor } : r)) : old
       );
       queryClient.setQueryData(['currentRound'], (old) =>
-        old && old.period === period ? { ...old, result } : old
+        old && old.period === period ? { ...old, result: { resultNumber: result.resultNumber, resultColor: result.resultColor } } : old
       );
       setError('');
       closeManualSetModal();
     },
     onError: (err) => {
-      const errorMessage = err.error || 'Failed to set outcome';
+      const errorMessage = err.error || err.message || 'Failed to set outcome';
+      console.error('setManualOutcome error:', err);
       setError(errorMessage);
       if (errorMessage.includes('Unauthorized') || errorMessage.includes('Invalid token')) {
         setTimeout(() => {
@@ -228,16 +233,19 @@ function RoundList() {
   });
 
   const openManualSetModal = (period) => {
+    console.log('Opening modal for period:', period);
     setManualRoundPeriod(period);
     setIsManualModalOpen(true);
   };
 
   const closeManualSetModal = () => {
+    console.log('Closing modal');
     setIsManualModalOpen(false);
     setManualRoundPeriod(null);
   };
 
   const handleSetResult = (period, result) => {
+    console.log('handleSetResult called:', { period, result });
     setManualOutcomeMutation.mutate({ period, result });
   };
 
