@@ -658,6 +658,103 @@ td {
   color: #000;
 }
 
+.table-container {
+  padding: 20px;
+}
+
+.error-message {
+  color: red;
+  margin-bottom: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: #f4f4f4;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.result-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.result-form label {
+  font-weight: bold;
+}
+
+.result-form input,
+.result-form select {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.result-form button {
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.result-form button[type="button"] {
+  background-color: #6c757d;
+}
+
+.result-form button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.action-btn {
+  padding: 5px 10px;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.manual-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+}
+
+.manual-btn:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
 @media (max-width: 768px) {
   .auto-outcome-btn, .manual-btn {
     padding: 6px 12px;
