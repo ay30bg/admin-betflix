@@ -6,7 +6,7 @@
 // import Users from './components/Users';
 // import Transactions from './components/Transactions';
 // import MainContent from './components/MainContent';
-// import ActivityLogs from './ActivityLogs';
+// import ActivityLogs from './components/ActivityLogs';
 // import SetRoundOutcome from './components/SetRoundOutcome';
 // import Signup from './components/SignUp';
 // import './App.css';
@@ -47,7 +47,7 @@ import Rounds from './components/Rounds';
 import Users from './components/Users';
 import Transactions from './components/Transactions';
 import MainContent from './components/MainContent';
-import ActivityLogs from './components/ActivityLogs';
+import ActivityLogs from './ActivityLogs';
 import SetRoundOutcome from './components/SetRoundOutcome';
 import Signup from './components/SignUp';
 import './App.css';
