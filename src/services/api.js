@@ -1,6 +1,53 @@
+// import axios from 'axios';
+
+// const API_URL = process.env.REACT_APP_API_URL || 'https://betflix-backend.vercel.app'; // Replace with your backend URL
+
+// const api = axios.create({
+//   baseURL: API_URL,
+//   headers: {
+//     'Content-Type': 'application/json',
+//   },
+// });
+
+// // Add token to requests
+// api.interceptors.request.use((config) => {
+//   const token = localStorage.getItem('adminToken');
+//   if (token) {
+//     config.headers.Authorization = `Bearer ${token}`;
+//   }
+//   return config;
+// });
+
+// // Admin Signup
+// export const adminSignup = async (email, password, adminKey) => {
+//   try {
+//     const response = await api.post('/api/auth/admin/signup', {
+//       email,
+//       password,
+//       adminKey,
+//     });
+//     return response.data;
+//   } catch (err) {
+//     throw err.response?.data || { error: 'Signup failed' };
+//   }
+// };
+
+// // Admin Login
+// export const adminLogin = async (email, password) => {
+//   try {
+//     const response = await api.post('/api/auth/admin/login', {
+//       email,
+//       password,
+//     });
+//     return response.data;
+//   } catch (err) {
+//     throw err.response?.data || { error: 'Login failed' };
+//   }
+// };
+
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL || 'https://betflix-backend.vercel.app'; // Replace with your backend URL
+const API_URL = process.env.REACT_APP_API_URL || 'https://your-backend-url.vercel.app'; // Replace with your backend URL
 
 const api = axios.create({
   baseURL: API_URL,
@@ -17,6 +64,21 @@ api.interceptors.request.use((config) => {
   }
   return config;
 });
+
+// Log errors for debugging
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    console.error('API request failed:', {
+      url: error.config?.url,
+      method: error.config?.method,
+      status: error.response?.status,
+      message: error.message,
+      responseData: error.response?.data,
+    });
+    return Promise.reject(error);
+  }
+);
 
 // Admin Signup
 export const adminSignup = async (email, password, adminKey) => {
@@ -44,6 +106,18 @@ export const adminLogin = async (email, password) => {
     throw err.response?.data || { error: 'Login failed' };
   }
 };
+
+// Admin Logout
+export const adminLogout = async () => {
+  try {
+    const response = await api.post('/api/auth/logout');
+    return response.data;
+  } catch (err) {
+    throw err.response?.data || { error: 'Logout failed' };
+  }
+};
+
+// Other functions (adminForgotPassword, adminResetPassword, getAdminDashboard, getAllUsers, deleteUser, fetchBets, fetchCurrentRound, placeBet, fetchBetResult) remain unchanged
 
 // Admin Forgot Password
 export const adminForgotPassword = async (email) => {
