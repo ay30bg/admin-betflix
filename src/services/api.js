@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL || 'https://your-backend-url.vercel.app'; // Replace with your backend URL
+const API_URL = process.env.REACT_APP_API_URL || 'https://betflix-backend.vercel.app'; // Replace with your backend URL
 
 const api = axios.create({
   baseURL: API_URL,
