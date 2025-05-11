@@ -134,6 +134,8 @@ api.interceptors.request.use((config) => {
   const token = localStorage.getItem('adminToken');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
+  } else {
+    console.warn('No adminToken found in localStorage');
   }
   return config;
 });
@@ -167,9 +169,11 @@ export const adminLogin = async (email, password) => {
     const response = await api.post('/api/auth/admin/login', { email, password });
     if (response.data.token) {
       localStorage.setItem('adminToken', response.data.token);
+      console.log('adminToken saved:', response.data.token);
     }
     return response.data;
   } catch (err) {
+    console.error('Login error:', err.response?.data);
     throw err.response?.data || { error: 'Login failed' };
   }
 };
@@ -227,6 +231,7 @@ export const fetchCurrentRound = async () => {
     const response = await api.get('/api/bets/current');
     return response.data;
   } catch (err) {
+    console.error('fetchCurrentRound error:', err.response?.data);
     throw err.response?.data || { error: 'Failed to fetch current round' };
   }
 };
@@ -236,6 +241,7 @@ export const fetchBetResult = async (period) => {
     const response = await api.get(`/api/bets/result/${period}`);
     return response.data;
   } catch (err) {
+    console.error('fetchBetResult error:', err.response?.data);
     throw err.response?.data || { error: 'Failed to fetch bet result' };
   }
 };
@@ -245,15 +251,18 @@ export const fetchBets = async () => {
     const response = await api.get('/api/bets/history');
     return response.data;
   } catch (err) {
+    console.error('fetchBets error:', err.response?.data);
     throw err.response?.data || { error: 'Failed to fetch bets' };
   }
 };
 
 export const setManualRoundOutcome = async (period, result) => {
   try {
+    console.log('setManualRoundOutcome called:', { period, result });
     const response = await api.post(`/api/bets/${period}/set-outcome`, result);
     return response.data.result;
   } catch (err) {
+    console.error('setManualRoundOutcome error:', err.response?.data);
     throw err.response?.data || { error: 'Failed to set outcome' };
   }
 };
