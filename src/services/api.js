@@ -27,82 +27,42 @@
 //       message: error.message,
 //       responseData: error.response?.data,
 //     });
-//     return Promise.reject(error);
+//     return Promise.reject(error.response?.data || { error: 'Request failed' });
 //   }
 // );
 
-// // Admin Signup
+// // Existing functions (abridged)
 // export const adminSignup = async (email, password, adminKey) => {
 //   try {
-//     const response = await api.post('/api/auth/admin/signup', {
-//       email,
-//       password,
-//       adminKey,
-//     });
+//     const response = await api.post('/api/auth/admin/signup', { email, password, adminKey });
 //     return response.data;
 //   } catch (err) {
 //     throw err.response?.data || { error: 'Signup failed' };
 //   }
 // };
 
-// // Admin Login
 // export const adminLogin = async (email, password) => {
 //   try {
-//     const response = await api.post('/api/auth/admin/login', {
-//       email,
-//       password,
-//     });
+//     const response = await api.post('/api/auth/admin/login', { email, password });
+//     if (response.data.token) {
+//       localStorage.setItem('adminToken', response.data.token);
+//     }
 //     return response.data;
 //   } catch (err) {
 //     throw err.response?.data || { error: 'Login failed' };
 //   }
 // };
 
-// // Admin Logout
 // export const adminLogout = async () => {
 //   try {
 //     const response = await api.post('/api/auth/logout');
+//     localStorage.removeItem('adminToken');
 //     return response.data;
 //   } catch (err) {
 //     throw err.response?.data || { error: 'Logout failed' };
 //   }
 // };
 
-// // Admin Forgot Password
-// export const adminForgotPassword = async (email) => {
-//   try {
-//     const response = await api.post('/api/auth/admin/forgot-password', { email });
-//     return response.data;
-//   } catch (err) {
-//     throw err.response?.data || { error: 'Failed to send reset link' };
-//   }
-// };
-
-// // Admin Reset Password
-// export const adminResetPassword = async (token, email, password) => {
-//   try {
-//     const response = await api.post('/api/auth/admin/reset-password', {
-//       token,
-//       email,
-//       password,
-//     });
-//     return response.data;
-//   } catch (err) {
-//     throw err.response?.data || { error: 'Failed to reset password' };
-//   }
-// };
-
-// // Get Admin Dashboard
-// export const getAdminDashboard = async () => {
-//   try {
-//     const response = await api.get('/api/admin/dashboard');
-//     return response.data;
-//   } catch (err) {
-//     throw err.response?.data || { error: 'Failed to load dashboard' };
-//   }
-// };
-
-// // Get All Users
 // export const getAllUsers = async () => {
 //   try {
 //     const response = await api.get('/api/admin/users');
@@ -112,7 +72,6 @@
 //   }
 // };
 
-// // Edit User
 // export const editUser = async (userId, data) => {
 //   try {
 //     const response = await api.put(`/api/admin/users/${userId}`, data);
@@ -122,7 +81,6 @@
 //   }
 // };
 
-// // Ban or Unban User
 // export const toggleBanUser = async (userId, status) => {
 //   try {
 //     const response = await api.put(`/api/admin/users/${userId}/status`, { status });
@@ -132,56 +90,33 @@
 //   }
 // };
 
-// // Delete User
-// export const deleteUser = async (userId) => {
+// // New functions for rounds
+// export const getRounds = async () => {
 //   try {
-//     const response = await api.delete(`/api/admin/users/${userId}`);
+//     const response = await api.get('/api/rounds');
 //     return response.data;
 //   } catch (err) {
-//     throw err.response?.data || { error: 'Failed to delete user' };
+//     throw err.response?.data || { error: 'Failed to fetch rounds' };
 //   }
 // };
 
-// // Fetch Bets History
-// export const fetchBets = async () => {
+// export const setLowestStakeOutcome = async (period) => {
 //   try {
-//     const response = await api.get('/api/bets/history');
-//     return response.data;
+//     const response = await api.post(`/api/rounds/${period}/set-lowest-stake-outcome`);
+//     return response.data.result;
 //   } catch (err) {
-//     throw err.response?.data || { error: 'Failed to fetch bets' };
+//     throw err.response?.data || { error: 'Failed to set lowest stake outcome' };
 //   }
 // };
 
-// // Fetch Current Round
-// export const fetchCurrentRound = async () => {
+// export const setManualRoundOutcome = async (period, result) => {
 //   try {
-//     const response = await api.get('/api/bets/current');
-//     return response.data;
+//     const response = await api.post(`/api/rounds/${period}/set-manual-outcome`, result);
+//     return response.data.result;
 //   } catch (err) {
-//     throw err.response?.data || { error: 'Failed to fetch current round' };
+//     throw err.response?.data || { error: 'Failed to set manual outcome' };
 //   }
 // };
-
-// // Place Bet
-// export const placeBet = async (betData) => {
-//   try {
-//     const response = await api.post('/api/bets', betData);
-//     return response.data;
-//   } catch (err) {
-//     throw err.response?.data || { error: 'Failed to place bet' };
-//   }
-// };
-
-// // Fetch Bet Result
-// export const fetchBetResult = async (period) => {
-//   try {
-//     const response = await api.get(`/api/bets/result/${period}`);
-//     return response.data;
-//   } catch (err) {
-//     throw err.response?.data || { error: 'Failed to fetch bet result' };
-//   }
-// };
-
 
 import axios from 'axios';
 
@@ -216,7 +151,7 @@ api.interceptors.response.use(
   }
 );
 
-// Existing functions (abridged)
+// Auth endpoints
 export const adminSignup = async (email, password, adminKey) => {
   try {
     const response = await api.post('/api/auth/admin/signup', { email, password, adminKey });
@@ -248,6 +183,7 @@ export const adminLogout = async () => {
   }
 };
 
+// User endpoints
 export const getAllUsers = async () => {
   try {
     const response = await api.get('/api/admin/users');
@@ -275,30 +211,39 @@ export const toggleBanUser = async (userId, status) => {
   }
 };
 
-// New functions for rounds
-export const getRounds = async () => {
+export const deleteUser = async (userId) => {
   try {
-    const response = await api.get('/api/rounds');
+    const response = await api.delete(`/api/admin/users/${userId}`);
     return response.data;
   } catch (err) {
-    throw err.response?.data || { error: 'Failed to fetch rounds' };
+    throw err.response?.data || { error: 'Failed to delete user' };
   }
 };
 
-export const setLowestStakeOutcome = async (period) => {
+// Bet/round endpoints
+export const fetchCurrentRound = async () => {
   try {
-    const response = await api.post(`/api/rounds/${period}/set-lowest-stake-outcome`);
-    return response.data.result;
+    const response = await api.get('/api/bets/current');
+    return response.data;
   } catch (err) {
-    throw err.response?.data || { error: 'Failed to set lowest stake outcome' };
+    throw err.response?.data || { error: 'Failed to fetch current round' };
   }
 };
 
-export const setManualRoundOutcome = async (period, result) => {
+export const fetchBetResult = async (period) => {
   try {
-    const response = await api.post(`/api/rounds/${period}/set-manual-outcome`, result);
-    return response.data.result;
+    const response = await api.get(`/api/bets/result/${period}`);
+    return response.data;
   } catch (err) {
-    throw err.response?.data || { error: 'Failed to set manual outcome' };
+    throw err.response?.data || { error: 'Failed to fetch bet result' };
+  }
+};
+
+export const fetchBets = async () => {
+  try {
+    const response = await api.get('/api/bets/history');
+    return response.data;
+  } catch (err) {
+    throw err.response?.data || { error: 'Failed to fetch bets' };
   }
 };
