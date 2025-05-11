@@ -256,7 +256,7 @@ function Signup() {
 
       // Redirect to login after a delay
       setTimeout(() => {
-        navigate('/login');
+        navigate('/');
       }, 2000);
     } catch (error) {
       console.error('Admin signup failed:', error);
