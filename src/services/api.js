@@ -118,7 +118,8 @@
 //   }
 // };
 
-import axios from 'axios';
+
+ import axios from 'axios';
 
 const API_URL = process.env.REACT_APP_API_URL || 'https://your-backend-url.vercel.app';
 
@@ -245,5 +246,14 @@ export const fetchBets = async () => {
     return response.data;
   } catch (err) {
     throw err.response?.data || { error: 'Failed to fetch bets' };
+  }
+};
+
+export const setManualRoundOutcome = async (period, result) => {
+  try {
+    const response = await api.post(`/api/bets/${period}/set-outcome`, result);
+    return response.data.result;
+  } catch (err) {
+    throw err.response?.data || { error: 'Failed to set outcome' };
   }
 };
