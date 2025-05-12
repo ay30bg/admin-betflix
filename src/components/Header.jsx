@@ -51,15 +51,15 @@ function Header() {
 
   // Handle logout
   const handleLogout = async () => {
-    try {
-      // Call backend logout endpoint (if implemented)
-      await adminLogout();
-    } catch (err) {
-      console.error('Logout failed:', err);
-    } finally {
-      // Clear admin token and profile
-      localStorage.removeItem('adminToken');
-      localStorage.removeItem('adminProfile');
+    // try {
+    //   // Call backend logout endpoint (if implemented)
+    //   await adminLogout();
+    // } catch (err) {
+    //   console.error('Logout failed:', err);
+    // } finally {
+    //   // Clear admin token and profile
+    //   localStorage.removeItem('adminToken');
+    //   localStorage.removeItem('adminProfile');
       navigate('/'); // Redirect to login page
     }
   };
