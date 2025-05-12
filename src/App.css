@@ -234,6 +234,40 @@ tr:hover {
   font-weight: 500;
 }
 
+/* Filter Container */
+.filter-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px;
+  background-color: #f7fafc;
+  border-bottom: 1px solid #e2e8f0;
+  border-radius: 8px 8px 0 0;
+}
+
+.filter-container label {
+  font-size: 14px;
+  color: #2d3748;
+  font-weight: 500;
+}
+
+.filter-select {
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #2d3748;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: #e53e3e; /* BetFlix red */
+  box-shadow: 0 0 0 2px rgba(229, 62, 62, 0.2);
+}
+
 .status-banned {
   color: #e53e3e;
   font-weight: 500;
