@@ -178,15 +178,15 @@ export const adminLogin = async (email, password) => {
   }
 };
 
-export const adminLogout = async () => {
-  try {
-    const response = await api.post('/api/auth/logout');
-    localStorage.removeItem('adminToken');
-    return response.data;
-  } catch (err) {
-    throw err.response?.data || { error: 'Logout failed' };
-  }
-};
+// export const adminLogout = async () => {
+//   try {
+//     const response = await api.post('/api/auth/logout');
+//     localStorage.removeItem('adminToken');
+//     return response.data;
+//   } catch (err) {
+//     throw err.response?.data || { error: 'Logout failed' };
+//   }
+// };
 
 // User endpoints
 export const getAllUsers = async () => {
