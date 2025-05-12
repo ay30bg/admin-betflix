@@ -369,21 +369,6 @@ function Users() {
 
   return (
     <div className="dashboard">
-      <div className={`sidebar ${isSidebarCollapsed ? 'collapsed' : ''}`}>
-        <div className="sidebar-header">
-          <h3>Admin Panel</h3>
-          <button className="sidebar-toggle" onClick={handleSidebarToggle}>
-            {isSidebarCollapsed ? '☰' : '✕'}
-          </button>
-        </div>
-        <ul className="sidebar-menu">
-          <li className="sidebar-item active">
-            <span className="sidebar-icon">👥</span>
-            <span>Users</span>
-          </li>
-          {/* Add other sidebar items as needed */}
-        </ul>
-      </div>
       <div className="main-container">
         <div className="main-content">
           <h2>Users</h2>
