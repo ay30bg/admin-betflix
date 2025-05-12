@@ -183,6 +183,7 @@
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import '../styles/signup.css';
 import { adminSignup } from '../services/api';
 
@@ -197,10 +198,12 @@ function Signup() {
     adminKey: '',
   });
 
-  // State for errors, loading, and notification
+  // State for errors, loading, notification, and password visibility
   const [errors, setErrors] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [notification, setNotification] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   // Handle input changes
   const handleChange = (e) => {
@@ -297,29 +300,55 @@ function Signup() {
         </div>
         <div className="form-group">
           <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            placeholder="Enter your password"
-            required
-            disabled={isLoading}
-          />
+          <div className="password-input-wrapper">
+            <input
+              type={showPassword ? 'text' : 'password'}
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="Enter your password"
+              required
+              disabled={isLoading}
+              className="password-input"
+            />
+            <span
+              className="eye-icon"
+              onClick={() => setShowPassword(!showPassword)}
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => e.key === 'Enter' && setShowPassword(!showPassword)}
+            >
+              {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+            </span>
+          </div>
         </div>
         <div className="form-group">
           <label htmlFor="confirmPassword">Confirm Password</label>
-          <input
-            type="password"
-            id="confirmPassword"
-            name="confirmPassword"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-            placeholder="Confirm your password"
-            required
-            disabled={isLoading}
-          />
+          <div className="password-input-wrapper">
+            <input
+              type={showConfirmPassword ? 'text' : 'password'}
+              id="confirmPassword"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              placeholder="Confirm your password"
+              required
+              disabled={isLoading}
+              className="password-input"
+            />
+            <span
+              className="eye-icon"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              aria-label={showConfirmPassword ? 'Hide confirm password' : 'Show confirm password'}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => e.key === 'Enter' && setShowConfirmPassword(!showConfirmPassword)}
+            >
+              {showConfirmPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+            </span>
+          </div>
         </div>
         <div className="form-group">
           <label htmlFor="adminKey">Admin Key</label>
