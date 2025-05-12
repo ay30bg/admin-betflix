@@ -121,10 +121,10 @@
 
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL || 'https://your-backend-url.vercel.app';
+const API_URL = process.env.REACT_APP_API_URL || 'https://betflix-backend.vercel.app';
 
 const api = axios.create({
-  baseURL: API_URL,
+  baseURL: `${API_URL}/api`,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -136,7 +136,12 @@ api.interceptors.request.use((config) => {
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
     console.log('Attached adminToken to request:', config.url);
-  } else if (config.url.includes('/admin') && !['/admin/signup', '/admin/login', '/admin/forgot-password', '/admin/reset-password'].some((path) => config.url.includes(path))) {
+  } else if (
+    config.url.includes('/admin') &&
+    !['/admin/signup', '/admin/login', '/admin/forgot-password', '/admin/reset-password'].some((path) =>
+      config.url.includes(path)
+    )
+  ) {
     console.warn('No adminToken found for protected route:', config.url);
   }
   return config;
@@ -158,12 +163,12 @@ api.interceptors.response.use(
 );
 
 // Auth endpoints
-export const adminSignup = async (email, password, adminKey) => {
+export const adminSignup = async (email, password) => {
   try {
     if (!email || !password) {
       throw { error: 'Email and password are required' };
     }
-    const response = await api.post('/admin/signup', { email, password, adminKey });
+    const response = await api.post('/admin/signup', { email, password });
     return response.data;
   } catch (err) {
     console.error('Signup error:', err);
@@ -275,10 +280,10 @@ export const deleteUser = async (userId) => {
   }
 };
 
-// Bet/round endpoints
+// Bet/round endpoints (may need backend route confirmation)
 export const fetchCurrentRound = async () => {
   try {
-    const response = await api.get('/api/bets/current');
+    const response = await api.get('/bets/current');
     return response.data;
   } catch (err) {
     console.error('Fetch current round error:', err);
@@ -291,7 +296,7 @@ export const fetchBetResult = async (period) => {
     if (!period) {
       throw { error: 'Period is required' };
     }
-    const response = await api.get(`/api/bets/result/${period}`);
+    const response = await api.get(`/bets/result/${period}`);
     return response.data;
   } catch (err) {
     console.error('Fetch bet result error:', err);
@@ -301,7 +306,7 @@ export const fetchBetResult = async (period) => {
 
 export const fetchBets = async () => {
   try {
-    const response = await api.get('/api/bets/history');
+    const response = await api.get('/bets/history');
     return response.data;
   } catch (err) {
     console.error('Fetch bets error:', err);
@@ -314,7 +319,7 @@ export const setManualRoundOutcome = async (period, result) => {
     if (!period || !result) {
       throw { error: 'Period and result are required' };
     }
-    const response = await api.post(`/api/bets/${period}/set-outcome`, result);
+    const response = await api.post(`/bets/${period}/set-outcome`, result);
     return response.data.result;
   } catch (err) {
     console.error('Set manual round outcome error:', err);
