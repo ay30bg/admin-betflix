@@ -187,6 +187,92 @@
     justify-content: center;
   }
 
+/* signup.css */
+
+/* Wrapper for password input and eye icon */
+.password-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* Password input styling */
+.password-input {
+  width: 100%;
+  padding: 10px 40px 10px 10px; /* Add padding on the right for the icon */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+/* Eye icon styling */
+.eye-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 20px;
+  color: #666;
+  user-select: none;
+}
+
+/* Ensure the icon is clickable */
+.eye-icon:hover {
+  color: #333;
+}
+
+/* Optional: Adjust input focus state */
+.password-input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+/* Existing styles (adjust as needed) */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.signup-error {
+  color: red;
+  margin-bottom: 10px;
+}
+
+.signup-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.signup-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.loading-spinner {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.result.success {
+  color: green;
+  margin-bottom: 10px;
+}
+
+.result.error {
+  color: red;
+  margin-bottom: 10px;
+}
+
 /* Animations */
 @keyframes fadeIn {
   from {
