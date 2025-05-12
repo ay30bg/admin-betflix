@@ -2,8 +2,7 @@
 // import { useNavigate } from 'react-router-dom';
 // import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 // import '../styles/login.css';
-
-
+// import { adminLogin } from '../services/api';
 
 // function Login() {
 //   const navigate = useNavigate();
@@ -24,21 +23,37 @@
 //     setError('');
 //   };
 
-//   const handleSubmit = (e) => {
+//   const handleSubmit = async (e) => {
 //     e.preventDefault();
+//     setError('');
+//     setIsLoading(true);
+
 //     if (!formData.email || !formData.password) {
 //       setError('Please enter both email and password');
+//       setIsLoading(false);
 //       return;
 //     }
 
-//     setIsLoading(true);
-//     // Mock login: Accept any non-empty credentials
-//     setTimeout(() => {
-//       localStorage.setItem('mockToken', 'mock-admin-token');
+//     try {
+//       // Call backend API for admin login
+//       const response = await adminLogin(formData.email, formData.password);
+
+//       // Store token and admin data
+//       localStorage.setItem('adminToken', response.token);
+//       localStorage.setItem('adminProfile', JSON.stringify({
+//         id: response.admin.id,
+//         email: response.admin.email,
+//       }));
+
 //       setFormData({ email: '', password: '' });
 //       navigate('/dashboard');
+//     } catch (err) {
+//       console.error('Admin login failed:', err);
+//       const errorMessage = err.error || 'Login failed. Please try again.';
+//       setError(errorMessage);
+//     } finally {
 //       setIsLoading(false);
-//     }, 1000); // Simulate network delay
+//     }
 //   };
 
 //   return (
@@ -100,7 +115,7 @@
 //           Don't have an account? <a href="/sign-up">Sign Up</a>
 //         </p>
 //       </form>
-//      <div className='footer'></div>
+//       <div className="footer"></div>
 //     </div>
 //   );
 // }
@@ -144,16 +159,12 @@ function Login() {
     }
 
     try {
-      // Call backend API for admin login
       const response = await adminLogin(formData.email, formData.password);
-
-      // Store token and admin data
       localStorage.setItem('adminToken', response.token);
       localStorage.setItem('adminProfile', JSON.stringify({
         id: response.admin.id,
         email: response.admin.email,
       }));
-
       setFormData({ email: '', password: '' });
       navigate('/dashboard');
     } catch (err) {
@@ -185,7 +196,7 @@ function Login() {
         </div>
         <div className="form-group">
           <label htmlFor="password">Password</label>
-          <div className="password-wrapper">
+          <div className="password-input-wrapper">
             <input
               type={showPassword ? 'text' : 'password'}
               id="password"
