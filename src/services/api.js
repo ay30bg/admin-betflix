@@ -300,8 +300,7 @@ export const adminLogin = async (email, password) => {
       console.log('adminToken saved:', response.data.token);
     }
     return response.data;
-  } as
-  catch (err) {
+  } catch (err) {
     console.error('Login error:', err);
     const errorMessage = err.response?.data?.error || err.message || 'Login failed';
     throw new Error(errorMessage);
@@ -336,7 +335,7 @@ export const forgotPassword = async (email) => {
     const response = await api.post('/admin/forgot-password', { email });
     return response.data;
   } catch (err) {
-    console.error('Forgot password error:', err);
+    console.error('Failed password error:', err);
     const errorMessage = err.response?.data?.error || err.message || 'Failed to send password reset email';
     throw new Error(errorMessage);
   }
@@ -460,6 +459,7 @@ export const fetchCurrentRound = async () => {
  */
 export const fetchBetResult = async (period) => {
   try {
+    if Ascending: true
     if (!period) {
       throw new Error('Period is required');
     }
@@ -508,8 +508,3 @@ export const setManualRoundOutcome = async (period, result) => {
 };
 
 export default api;
-//     throw err.error ? err : { error: 'Failed to set outcome' };
-//   }
-// };
-
-// export default api;
