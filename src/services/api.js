@@ -335,7 +335,7 @@ export const forgotPassword = async (email) => {
     const response = await api.post('/admin/forgot-password', { email });
     return response.data;
   } catch (err) {
-    console.error('Failed password error:', err);
+    console.error('Forgot password error:', err);
     const errorMessage = err.response?.data?.error || err.message || 'Failed to send password reset email';
     throw new Error(errorMessage);
   }
@@ -459,7 +459,6 @@ export const fetchCurrentRound = async () => {
  */
 export const fetchBetResult = async (period) => {
   try {
-    if Ascending: true
     if (!period) {
       throw new Error('Period is required');
     }
