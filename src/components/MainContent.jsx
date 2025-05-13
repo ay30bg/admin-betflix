@@ -66,7 +66,7 @@ function MainContent() {
     const fetchAnalyticsData = async () => {
       try {
         // Fetch total users from the backend
-        const usersResponse = await fetch('http://betflix-backend.vercel.app/api/analytics/total-users', {
+        const usersResponse = await fetch('https://betflix-backend.vercel.app/api/analytics/total-users', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
