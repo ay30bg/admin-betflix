@@ -1,22 +1,32 @@
 // import axios from 'axios';
 
-// const API_URL = process.env.REACT_APP_API_URL || 'https://your-backend-url.vercel.app';
+// const API_URL = process.env.REACT_APP_API_URL || 'https://betflix-backend.vercel.app';
 
 // const api = axios.create({
-//   baseURL: API_URL,
+//   baseURL: `${API_URL}/api`,
 //   headers: {
 //     'Content-Type': 'application/json',
 //   },
 // });
 
+// // Request interceptor to attach admin token
 // api.interceptors.request.use((config) => {
 //   const token = localStorage.getItem('adminToken');
 //   if (token) {
 //     config.headers.Authorization = `Bearer ${token}`;
+//     console.log('Attached adminToken to request:', config.url);
+//   } else if (
+//     config.url.includes('/admin') &&
+//     !['/admin/signup', '/admin/login', '/admin/forgot-password', '/admin/reset-password'].some((path) =>
+//       config.url.includes(path)
+//     )
+//   ) {
+//     console.warn('No adminToken found for protected route:', config.url);
 //   }
 //   return config;
 // });
 
+// // Response interceptor for error handling
 // api.interceptors.response.use(
 //   (response) => response,
 //   (error) => {
@@ -31,97 +41,177 @@
 //   }
 // );
 
-// // Existing functions (abridged)
-// export const adminSignup = async (email, password, adminKey) => {
+// // Auth endpoints
+// export const adminSignup = async (email, password) => {
 //   try {
-//     const response = await api.post('/api/auth/admin/signup', { email, password, adminKey });
+//     if (!email || !password) {
+//       throw { error: 'Email and password are required' };
+//     }
+//     const response = await api.post('/admin/signup', { email, password });
 //     return response.data;
 //   } catch (err) {
-//     throw err.response?.data || { error: 'Signup failed' };
+//     console.error('Signup error:', err);
+//     throw err.error ? err : { error: 'Signup failed' };
 //   }
 // };
 
 // export const adminLogin = async (email, password) => {
 //   try {
-//     const response = await api.post('/api/auth/admin/login', { email, password });
+//     if (!email || !password) {
+//       throw { error: 'Email and password are required' };
+//     }
+//     const response = await api.post('/admin/login', { email, password });
 //     if (response.data.token) {
 //       localStorage.setItem('adminToken', response.data.token);
+//       console.log('adminToken saved:', response.data.token);
 //     }
 //     return response.data;
 //   } catch (err) {
-//     throw err.response?.data || { error: 'Login failed' };
+//     console.error('Login error:', err);
+//     throw err.error ? err : { error: 'Login failed' };
 //   }
 // };
 
-// export const adminLogout = async () => {
+// export const adminLogout = () => {
 //   try {
-//     const response = await api.post('/api/auth/logout');
 //     localStorage.removeItem('adminToken');
+//     console.log('adminToken removed from localStorage');
+//     return { message: 'Logout successful' };
+//   } catch (err) {
+//     console.error('Logout error:', err);
+//     throw { error: 'Logout failed' };
+//   }
+// };
+
+// export const forgotPassword = async (email) => {
+//   try {
+//     if (!email) {
+//       throw { error: 'Email is required' };
+//     }
+//     const response = await api.post('/admin/forgot-password', { email });
 //     return response.data;
 //   } catch (err) {
-//     throw err.response?.data || { error: 'Logout failed' };
+//     console.error('Forgot password error:', err);
+//     throw err.error ? err : { error: 'Failed to send password reset email' };
 //   }
 // };
 
+// export const resetPassword = async (token, password) => {
+//   try {
+//     if (!token || !password) {
+//       throw { error: 'Token and password are required' };
+//     }
+//     const response = await api.post(`/admin/reset-password/${token}`, { password });
+//     return response.data;
+//   } catch (err) {
+//     console.error('Reset password error:', err);
+//     throw err.error ? err : { error: 'Failed to reset password' };
+//   }
+// };
+
+// // User endpoints
 // export const getAllUsers = async () => {
 //   try {
-//     const response = await api.get('/api/admin/users');
+//     const response = await api.get('/admin/users');
 //     return response.data;
 //   } catch (err) {
-//     throw err.response?.data || { error: 'Failed to fetch users' };
+//     console.error('Get all users error:', err);
+//     throw err.error ? err : { error: 'Failed to fetch users' };
 //   }
 // };
 
 // export const editUser = async (userId, data) => {
 //   try {
-//     const response = await api.put(`/api/admin/users/${userId}`, data);
+//     if (!userId || !data) {
+//       throw { error: 'User ID and data are required' };
+//     }
+//     const response = await api.put(`/admin/users/${userId}`, data);
 //     return response.data;
 //   } catch (err) {
-//     throw err.response?.data || { error: 'Failed to edit user' };
+//     console.error('Edit user error:', err);
+//     throw err.error ? err : { error: 'Failed to edit user' };
 //   }
 // };
 
 // export const toggleBanUser = async (userId, status) => {
 //   try {
-//     const response = await api.put(`/api/admin/users/${userId}/status`, { status });
+//     if (!userId || !['active', 'banned'].includes(status)) {
+//       throw { error: 'Valid user ID and status (active/banned) are required' };
+//     }
+//     const response = await api.put(`/admin/users/${userId}/ban`, { status });
 //     return response.data;
 //   } catch (err) {
-//     throw err.response?.data || { error: 'Failed to update user status' };
+//     console.error('Toggle ban user error:', err);
+//     throw err.error ? err : { error: 'Failed to update user status' };
 //   }
 // };
 
-// // New functions for rounds
-// export const getRounds = async () => {
+// export const deleteUser = async (userId) => {
 //   try {
-//     const response = await api.get('/api/rounds');
+//     if (!userId) {
+//       throw { error: 'User ID is required' };
+//     }
+//     const response = await api.delete(`/admin/users/${userId}`);
 //     return response.data;
 //   } catch (err) {
-//     throw err.response?.data || { error: 'Failed to fetch rounds' };
+//     console.error('Delete user error:', err);
+//     throw err.error ? err : { error: 'Failed to delete user' };
 //   }
 // };
 
-// export const setLowestStakeOutcome = async (period) => {
+// // Bet/round endpoints (may need backend route confirmation)
+// export const fetchCurrentRound = async () => {
 //   try {
-//     const response = await api.post(`/api/rounds/${period}/set-lowest-stake-outcome`);
-//     return response.data.result;
+//     const response = await api.get('/bets/current');
+//     return response.data;
 //   } catch (err) {
-//     throw err.response?.data || { error: 'Failed to set lowest stake outcome' };
+//     console.error('Fetch current round error:', err);
+//     throw err.error ? err : { error: 'Failed to fetch current round' };
+//   }
+// };
+
+// export const fetchBetResult = async (period) => {
+//   try {
+//     if (!period) {
+//       throw { error: 'Period is required' };
+//     }
+//     const response = await api.get(`/bets/result/${period}`);
+//     return response.data;
+//   } catch (err) {
+//     console.error('Fetch bet result error:', err);
+//     throw err.error ? err : { error: 'Failed to fetch bet result' };
+//   }
+// };
+
+// export const fetchBets = async () => {
+//   try {
+//     const response = await api.get('/bets/history');
+//     return response.data;
+//   } catch (err) {
+//     console.error('Fetch bets error:', err);
+//     throw err.error ? err : { error: 'Failed to fetch bets' };
 //   }
 // };
 
 // export const setManualRoundOutcome = async (period, result) => {
 //   try {
-//     const response = await api.post(`/api/rounds/${period}/set-manual-outcome`, result);
+//     if (!period || !result) {
+//       throw { error: 'Period and result are required' };
+//     }
+//     const response = await api.post(`/bets/${period}/set-outcome`, result);
 //     return response.data.result;
 //   } catch (err) {
-//     throw err.response?.data || { error: 'Failed to set manual outcome' };
-//   }
-// };
-
+//     console.error('Set manual round outcome error:', err);
 
 import axios from 'axios';
 
 const API_URL = process.env.REACT_APP_API_URL || 'https://betflix-backend.vercel.app';
+
+// Validate API_URL
+if (!API_URL) {
+  console.error('REACT_APP_API_URL is not defined');
+  throw new Error('API URL is not configured');
+}
 
 const api = axios.create({
   baseURL: `${API_URL}/api`,
@@ -133,7 +223,7 @@ const api = axios.create({
 // Request interceptor to attach admin token
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('adminToken');
-  if (token) {
+  if (token && typeof token === 'string' && token.startsWith('eyJ')) {
     config.headers.Authorization = `Bearer ${token}`;
     console.log('Attached adminToken to request:', config.url);
   } else if (
@@ -158,28 +248,51 @@ api.interceptors.response.use(
       message: error.message,
       responseData: error.response?.data,
     });
+    if (error.response?.status === 429) {
+      return Promise.reject({ error: 'Too many requests. Please try again later.' });
+    }
     return Promise.reject(error.response?.data || { error: 'Request failed' });
   }
 );
 
 // Auth endpoints
-export const adminSignup = async (email, password) => {
+/**
+ * @typedef {Object} AdminSignupResponse
+ * @property {string} token
+ * @property {{ id: string, email: string }} admin
+ */
+/**
+ * Signs up an admin user
+ * @param {string} email
+ * @param {string} password
+ * @param {string} adminKey
+ * @returns {Promise<AdminSignupResponse>}
+ */
+export const adminSignup = async (email, password, adminKey) => {
   try {
-    if (!email || !password) {
-      throw { error: 'Email and password are required' };
+    if (!email || !password || !adminKey) {
+      throw new Error('Email, password, and admin key are required');
     }
-    const response = await api.post('/admin/signup', { email, password });
+    const response = await api.post('/admin/signup', { email, password, adminKey });
+    console.log('adminSignup response:', response.data);
     return response.data;
   } catch (err) {
     console.error('Signup error:', err);
-    throw err.error ? err : { error: 'Signup failed' };
+    const errorMessage = err.response?.data?.error || err.message || 'Signup failed';
+    throw new Error(errorMessage);
   }
 };
 
+/**
+ * Logs in an admin user
+ * @param {string} email
+ * @param {string} password
+ * @returns {Promise<{ token: string, admin: { id: string, email: string } }>}
+ */
 export const adminLogin = async (email, password) => {
   try {
     if (!email || !password) {
-      throw { error: 'Email and password are required' };
+      throw new Error('Email and password are required');
     }
     const response = await api.post('/admin/login', { email, password });
     if (response.data.token) {
@@ -187,12 +300,18 @@ export const adminLogin = async (email, password) => {
       console.log('adminToken saved:', response.data.token);
     }
     return response.data;
-  } catch (err) {
+  } as
+  catch (err) {
     console.error('Login error:', err);
-    throw err.error ? err : { error: 'Login failed' };
+    const errorMessage = err.response?.data?.error || err.message || 'Login failed';
+    throw new Error(errorMessage);
   }
 };
 
+/**
+ * Logs out an admin user
+ * @returns {Promise<{ message: string }>}
+ */
 export const adminLogout = () => {
   try {
     localStorage.removeItem('adminToken');
@@ -200,131 +319,197 @@ export const adminLogout = () => {
     return { message: 'Logout successful' };
   } catch (err) {
     console.error('Logout error:', err);
-    throw { error: 'Logout failed' };
+    throw new Error('Logout failed');
   }
 };
 
+/**
+ * Requests a password reset email
+ * @param {string} email
+ * @returns {Promise<{ message: string }>}
+ */
 export const forgotPassword = async (email) => {
   try {
     if (!email) {
-      throw { error: 'Email is required' };
+      throw new Error('Email is required');
     }
     const response = await api.post('/admin/forgot-password', { email });
     return response.data;
   } catch (err) {
     console.error('Forgot password error:', err);
-    throw err.error ? err : { error: 'Failed to send password reset email' };
+    const errorMessage = err.response?.data?.error || err.message || 'Failed to send password reset email';
+    throw new Error(errorMessage);
   }
 };
 
+/**
+ * Resets an admin password
+ * @param {string} token
+ * @param {string} password
+ * @returns {Promise<{ message: string }>}
+ */
 export const resetPassword = async (token, password) => {
   try {
     if (!token || !password) {
-      throw { error: 'Token and password are required' };
+      throw new Error('Token and password are required');
     }
     const response = await api.post(`/admin/reset-password/${token}`, { password });
     return response.data;
   } catch (err) {
     console.error('Reset password error:', err);
-    throw err.error ? err : { error: 'Failed to reset password' };
+    const errorMessage = err.response?.data?.error || err.message || 'Failed to reset password';
+    throw new Error(errorMessage);
   }
 };
 
 // User endpoints
+/**
+ * Fetches all users
+ * @returns {Promise<any[]>}
+ */
 export const getAllUsers = async () => {
   try {
     const response = await api.get('/admin/users');
     return response.data;
   } catch (err) {
     console.error('Get all users error:', err);
-    throw err.error ? err : { error: 'Failed to fetch users' };
+    const errorMessage = err.response?.data?.error || err.message || 'Failed to fetch users';
+    throw new Error(errorMessage);
   }
 };
 
+/**
+ * Edits a user
+ * @param {string} userId
+ * @param {object} data
+ * @returns {Promise<any>}
+ */
 export const editUser = async (userId, data) => {
   try {
     if (!userId || !data) {
-      throw { error: 'User ID and data are required' };
+      throw new Error('User ID and data are required');
     }
     const response = await api.put(`/admin/users/${userId}`, data);
     return response.data;
   } catch (err) {
     console.error('Edit user error:', err);
-    throw err.error ? err : { error: 'Failed to edit user' };
+    const errorMessage = err.response?.data?.error || err.message || 'Failed to edit user';
+    throw new Error(errorMessage);
   }
 };
 
+/**
+ * Toggles a user's ban status
+ * @param {string} userId
+ * @param {'active' | 'banned'} status
+ * @returns {Promise<any>}
+ */
 export const toggleBanUser = async (userId, status) => {
   try {
     if (!userId || !['active', 'banned'].includes(status)) {
-      throw { error: 'Valid user ID and status (active/banned) are required' };
+      throw new Error('Valid user ID and status (active/banned) are required');
     }
     const response = await api.put(`/admin/users/${userId}/ban`, { status });
     return response.data;
   } catch (err) {
     console.error('Toggle ban user error:', err);
-    throw err.error ? err : { error: 'Failed to update user status' };
+    const errorMessage = err.response?.data?.error || err.message || 'Failed to update user status';
+    throw new Error(errorMessage);
   }
 };
 
+/**
+ * Deletes a user
+ * @param {string} userId
+ * @returns {Promise<any>}
+ */
 export const deleteUser = async (userId) => {
   try {
     if (!userId) {
-      throw { error: 'User ID is required' };
+      throw new Error('User ID is required');
     }
     const response = await api.delete(`/admin/users/${userId}`);
     return response.data;
   } catch (err) {
     console.error('Delete user error:', err);
-    throw err.error ? err : { error: 'Failed to delete user' };
+    const errorMessage = err.response?.data?.error || err.message || 'Failed to delete user';
+    throw new Error(errorMessage);
   }
 };
 
-// Bet/round endpoints (may need backend route confirmation)
+// Bet/round endpoints
+/**
+ * Fetches the current round
+ * @returns {Promise<any>}
+ */
 export const fetchCurrentRound = async () => {
   try {
     const response = await api.get('/bets/current');
     return response.data;
   } catch (err) {
     console.error('Fetch current round error:', err);
-    throw err.error ? err : { error: 'Failed to fetch current round' };
+    const errorMessage = err.response?.data?.error || err.message || 'Failed to fetch current round';
+    throw new Error(errorMessage);
   }
 };
 
+/**
+ * Fetches a bet result for a period
+ * @param {string} period
+ * @returns {Promise<any>}
+ */
 export const fetchBetResult = async (period) => {
   try {
     if (!period) {
-      throw { error: 'Period is required' };
+      throw new Error('Period is required');
     }
     const response = await api.get(`/bets/result/${period}`);
     return response.data;
   } catch (err) {
     console.error('Fetch bet result error:', err);
-    throw err.error ? err : { error: 'Failed to fetch bet result' };
+    const errorMessage = err.response?.data?.error || err.message || 'Failed to fetch bet result';
+    throw new Error(errorMessage);
   }
 };
 
+/**
+ * Fetches bet history
+ * @returns {Promise<any[]>}
+ */
 export const fetchBets = async () => {
   try {
     const response = await api.get('/bets/history');
     return response.data;
   } catch (err) {
     console.error('Fetch bets error:', err);
-    throw err.error ? err : { error: 'Failed to fetch bets' };
+    const errorMessage = err.response?.data?.error || err.message || 'Failed to fetch bets';
+    throw new Error(errorMessage);
   }
 };
 
+/**
+ * Sets a manual round outcome
+ * @param {string} period
+ * @param {object} result
+ * @returns {Promise<any>}
+ */
 export const setManualRoundOutcome = async (period, result) => {
   try {
     if (!period || !result) {
-      throw { error: 'Period and result are required' };
+      throw new Error('Period and result are required');
     }
     const response = await api.post(`/bets/${period}/set-outcome`, result);
     return response.data.result;
   } catch (err) {
     console.error('Set manual round outcome error:', err);
-    throw err.error ? err : { error: 'Failed to set outcome' };
+    const errorMessage = err.response?.data?.error || err.message || 'Failed to set outcome';
+    throw new Error(errorMessage);
   }
 };
 
 export default api;
+//     throw err.error ? err : { error: 'Failed to set outcome' };
+//   }
+// };
+
+// export default api;
