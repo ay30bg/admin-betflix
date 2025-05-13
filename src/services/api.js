@@ -239,7 +239,17 @@ api.interceptors.request.use((config) => {
 
 // Response interceptor for error handling
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    console.log('Raw API response:', {
+      status: response.status,
+      data: response.data,
+      headers: response.headers,
+    });
+    if (response.status !== 201 && response.config.method === 'post' && response.config.url.includes('/admin/signup')) {
+      console.warn('Unexpected status code for signup:', response.status);
+    }
+    return response.data;
+  },
   (error) => {
     console.error('API request failed:', {
       url: error.config?.url,
@@ -274,8 +284,8 @@ export const adminSignup = async (email, password, adminKey) => {
       throw new Error('Email, password, and admin key are required');
     }
     const response = await api.post('/admin/signup', { email, password, adminKey });
-    console.log('adminSignup response:', response.data);
-    return response.data;
+    console.log('adminSignup response:', response);
+    return response;
   } catch (err) {
     console.error('Signup error:', err);
     const errorMessage = err.response?.data?.error || err.message || 'Signup failed';
@@ -295,11 +305,11 @@ export const adminLogin = async (email, password) => {
       throw new Error('Email and password are required');
     }
     const response = await api.post('/admin/login', { email, password });
-    if (response.data.token) {
-      localStorage.setItem('adminToken', response.data.token);
-      console.log('adminToken saved:', response.data.token);
+    if (response.token) {
+      localStorage.setItem('adminToken', response.token);
+      console.log('adminToken saved:', response.token);
     }
-    return response.data;
+    return response;
   } catch (err) {
     console.error('Login error:', err);
     const errorMessage = err.response?.data?.error || err.message || 'Login failed';
@@ -333,7 +343,7 @@ export const forgotPassword = async (email) => {
       throw new Error('Email is required');
     }
     const response = await api.post('/admin/forgot-password', { email });
-    return response.data;
+    return response;
   } catch (err) {
     console.error('Forgot password error:', err);
     const errorMessage = err.response?.data?.error || err.message || 'Failed to send password reset email';
@@ -353,7 +363,7 @@ export const resetPassword = async (token, password) => {
       throw new Error('Token and password are required');
     }
     const response = await api.post(`/admin/reset-password/${token}`, { password });
-    return response.data;
+    return response;
   } catch (err) {
     console.error('Reset password error:', err);
     const errorMessage = err.response?.data?.error || err.message || 'Failed to reset password';
@@ -369,7 +379,7 @@ export const resetPassword = async (token, password) => {
 export const getAllUsers = async () => {
   try {
     const response = await api.get('/admin/users');
-    return response.data;
+    return response;
   } catch (err) {
     console.error('Get all users error:', err);
     const errorMessage = err.response?.data?.error || err.message || 'Failed to fetch users';
@@ -389,7 +399,7 @@ export const editUser = async (userId, data) => {
       throw new Error('User ID and data are required');
     }
     const response = await api.put(`/admin/users/${userId}`, data);
-    return response.data;
+    return response;
   } catch (err) {
     console.error('Edit user error:', err);
     const errorMessage = err.response?.data?.error || err.message || 'Failed to edit user';
@@ -409,7 +419,7 @@ export const toggleBanUser = async (userId, status) => {
       throw new Error('Valid user ID and status (active/banned) are required');
     }
     const response = await api.put(`/admin/users/${userId}/ban`, { status });
-    return response.data;
+    return response;
   } catch (err) {
     console.error('Toggle ban user error:', err);
     const errorMessage = err.response?.data?.error || err.message || 'Failed to update user status';
@@ -428,7 +438,7 @@ export const deleteUser = async (userId) => {
       throw new Error('User ID is required');
     }
     const response = await api.delete(`/admin/users/${userId}`);
-    return response.data;
+    return response;
   } catch (err) {
     console.error('Delete user error:', err);
     const errorMessage = err.response?.data?.error || err.message || 'Failed to delete user';
@@ -444,7 +454,7 @@ export const deleteUser = async (userId) => {
 export const fetchCurrentRound = async () => {
   try {
     const response = await api.get('/bets/current');
-    return response.data;
+    return response;
   } catch (err) {
     console.error('Fetch current round error:', err);
     const errorMessage = err.response?.data?.error || err.message || 'Failed to fetch current round';
@@ -463,7 +473,7 @@ export const fetchBetResult = async (period) => {
       throw new Error('Period is required');
     }
     const response = await api.get(`/bets/result/${period}`);
-    return response.data;
+    return response;
   } catch (err) {
     console.error('Fetch bet result error:', err);
     const errorMessage = err.response?.data?.error || err.message || 'Failed to fetch bet result';
@@ -478,7 +488,7 @@ export const fetchBetResult = async (period) => {
 export const fetchBets = async () => {
   try {
     const response = await api.get('/bets/history');
-    return response.data;
+    return response;
   } catch (err) {
     console.error('Fetch bets error:', err);
     const errorMessage = err.response?.data?.error || err.message || 'Failed to fetch bets';
