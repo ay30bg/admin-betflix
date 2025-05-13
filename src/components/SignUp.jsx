@@ -194,6 +194,7 @@
 
 // export default Signup;
 
+// src/SignUp.jsx
 import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
@@ -202,9 +203,8 @@ import { adminSignup } from '../services/api';
 
 function Signup() {
   const navigate = useNavigate();
-  const emailRef = useRef(null); // For focusing on invalid input
+  const emailRef = useRef(null);
 
-  // Initialize form data
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -212,30 +212,26 @@ function Signup() {
     adminKey: '',
   });
 
-  // State for errors, loading, notification, and password visibility
   const [errors, setErrors] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [notification, setNotification] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
-    setErrors(''); // Clear errors on input change
+    setErrors('');
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors('');
     setIsLoading(true);
 
-    // Trim and normalize inputs
     const trimmedData = {
       email: formData.email.trim().toLowerCase(),
       password: formData.password.trim(),
@@ -243,7 +239,6 @@ function Signup() {
       adminKey: formData.adminKey.trim(),
     };
 
-    // Client-side validation
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedData.email)) {
       setErrors('A valid email is required');
       emailRef.current.focus();
@@ -273,24 +268,29 @@ function Signup() {
 
     try {
       const response = await adminSignup(trimmedData.email, trimmedData.password, trimmedData.adminKey);
-      console.log('API Response:', response);
+      console.log('API Response (raw):', response);
 
-      // Validate response structure
-      if (!response.token || !response.admin || !response.admin.id || !response.admin.email) {
+      // Normalize response
+      const data = response.data || response;
+      const admin = data.admin || (data.data && data.data.admin) || (data.result && data.result.admin) || {};
+      const token = data.token || (data.data && data.data.token) || (data.result && data.result.token);
+      const adminId = admin.id || admin._id || (admin.userId && admin.userId);
+
+      // Validate normalized response
+      if (!token || !admin || !adminId || !admin.email) {
+        console.error('Invalid response structure:', { data, token, admin, adminId, adminEmail: admin.email });
         throw new Error('Invalid response from server');
       }
 
-      // Store token and admin data
-      localStorage.setItem('adminToken', response.token);
+      localStorage.setItem('adminToken', token);
       localStorage.setItem('adminProfile', JSON.stringify({
-        id: response.admin.id,
-        email: response.admin.email,
+        id: adminId,
+        email: admin.email,
       }));
 
       setNotification({ type: 'success', message: 'Signup successful! Redirecting to login...' });
       setFormData({ email: '', password: '', confirmPassword: '', adminKey: '' });
 
-      // Redirect to login after a delay
       setTimeout(() => {
         navigate('/');
       }, 3000);
@@ -301,6 +301,7 @@ function Signup() {
         'Invalid admin key': 'The admin key is incorrect.',
         'Email, password, and admin key are required': 'All fields are required.',
         'Invalid response from server': 'Unexpected server response. Please try again.',
+        'Failed to sign up admin': 'Server error. Please try again later.',
         default: error.message || 'Signup failed. Please try again.',
       }[error.message] || error.message;
       setErrors(errorMessage);
