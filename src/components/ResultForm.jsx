@@ -66,7 +66,7 @@
 
 
 import React, { useState } from 'react';
-import './ResultForm.css'; // CSS for styling
+// import './ResultForm.css';  
 
 function ResultForm({ period, onClose, onSetResult }) {
   const [resultNumber, setResultNumber] = useState('');
