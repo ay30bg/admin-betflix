@@ -10,6 +10,7 @@ import MainContent from './components/MainContent';
 import ActivityLogs from './ActivityLogs';
 import SetRoundOutcome from './components/SetRoundOutcome';
 import Signup from './components/SignUp';
+import AdminForgotPassword from './components/AdminForgotPassword';
 import './App.css';
 
 // Create a QueryClient instance
@@ -24,6 +25,7 @@ function App() {
             {/* Login route without Dashboard/sidebar */}
             <Route path="/" element={<Login />} />
             <Route path="/sign-up" element={<Signup />} />
+            <Route path="/forgot-password" element={<AdminForgotPassword />} />
             
             {/* Dashboard route with nested routes */}
             <Route path="/dashboard" element={<Dashboard />}>
