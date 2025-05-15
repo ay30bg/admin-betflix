@@ -516,4 +516,36 @@ export const setManualRoundOutcome = async (period, result) => {
   }
 };
 
+
+/**
+ * Fetches a round result for a period (admin only)
+ * @param {string} period
+ * @returns {Promise<any|null>}
+ */
+export const fetchRoundResult = async (period) => {
+  try {
+    if (!period) {
+      throw new Error('Period is required');
+    }
+    const cleanPeriod = period.startsWith('round-') ? period : `round-${period}`;
+    console.log('Fetching round result for URL:', `${api.defaults.baseURL}/rounds/result/${cleanPeriod}`);
+    const response = await api.get(`/rounds/result/${cleanPeriod}`);
+    console.log('Round result fetched:', response);
+    return response;
+  } catch (err) {
+    console.error('Fetch round result error:', {
+      period,
+      error: err.message,
+      status: err.response?.status,
+      responseData: err.response?.data,
+    });
+    if (err.response?.status === 404) {
+      console.warn(`No round result for period: ${period}`);
+      return null; // Return null for missing rounds
+    }
+    const errorMessage = err.response?.data?.error || err.message || 'Failed to fetch round result';
+    throw new Error(errorMessage);
+  }
+};
+
 export default api;
