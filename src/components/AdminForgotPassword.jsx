@@ -84,7 +84,7 @@
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { forgotPassword } from '../api'; // Adjust path to your API client file
+import { forgotPassword } from '../services/api'; // Adjust path to your API client file
 import '../styles/login.css';
 
 function AdminForgotPassword() {
