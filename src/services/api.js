@@ -362,7 +362,7 @@ export const resetPassword = async (token, password) => {
     if (!token || !password) {
       throw new Error('Token and password are required');
     }
-    const response = await api.post(`/reset-password/${token}`, { password });
+    const response = await api.post(`/admin/reset-password/${token}`, { password });
     return response;
   } catch (err) {
     console.error('Reset password error:', err);
