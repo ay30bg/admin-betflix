@@ -100,7 +100,7 @@ function ResultForm({ period, onClose, onSetResult }) {
     try {
       // Make API call to set round outcome
       const response = await fetch(`/api/rounds/${period}/outcome`, {
-        method: 'POST',
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           // Include JWT token for authentication
