@@ -52,7 +52,6 @@ function AdminForgotPassword() {
 
   return (
     <div className="forgot-password-page container">
-      <AuthHeader />
       <h1 className="forgot-password-header">Forgot Password</h1>
       <form onSubmit={handleSubmit} className="forgot-password-form">
         <div className="form-group">
