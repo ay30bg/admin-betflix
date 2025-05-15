@@ -10,6 +10,7 @@ import MainContent from './components/MainContent';
 import ActivityLogs from './ActivityLogs';
 import SetRoundOutcome from './components/SetRoundOutcome';
 import Signup from './components/SignUp';
+import ResetPassword from './components/ResetPassword';
 import AdminForgotPassword from './components/AdminForgotPassword';
 import './App.css';
 
@@ -26,6 +27,7 @@ function App() {
             <Route path="/" element={<Login />} />
             <Route path="/sign-up" element={<Signup />} />
             <Route path="/forgot-password" element={<AdminForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             
             {/* Dashboard route with nested routes */}
             <Route path="/dashboard" element={<Dashboard />}>
