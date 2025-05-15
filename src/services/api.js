@@ -507,10 +507,18 @@ export const setManualRoundOutcome = async (period, result) => {
     if (!period || !result) {
       throw new Error('Period and result are required');
     }
-    const response = await api.post(`/bets/${period}/set-outcome`, result);
-    return response.data.result;
+    const response = await api.post(`/rounds/${period}/outcome`, result);
+    console.log('setManualRoundOutcome response:', response);
+    if (!response.result) {
+      console.warn('Unexpected response structure:', response);
+      throw new Error('Invalid response structure: missing result');
+    }
+    return response.result; // Backend returns { result: { resultNumber, resultColor } }
   } catch (err) {
-    console.error('Set manual round outcome error:', err);
+    console.error('Set manual round outcome error:', err, {
+      status: err.response?.status,
+      data: err.response?.data,
+    });
     const errorMessage = err.response?.data?.error || err.message || 'Failed to set outcome';
     throw new Error(errorMessage);
   }
