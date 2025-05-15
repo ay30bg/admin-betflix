@@ -152,12 +152,9 @@ function AdminForgotPassword() {
         <button type="submit" className="login-button" disabled={isLoading}>
           {isLoading ? 'Sending...' : 'Send Reset Link'}
         </button>
-        <p>
-          Remember your password?{' '}
-          <button type="button" onClick={handleBack} className="link-button">
-            Login
-          </button>
-        </p>
+         <p>         
+           Remember your password? <a href="/">Login</a>
+      </p>
       </form>
     </div>
   );
