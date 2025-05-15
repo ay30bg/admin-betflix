@@ -27,7 +27,7 @@ function App() {
             <Route path="/" element={<Login />} />
             <Route path="/sign-up" element={<Signup />} />
             <Route path="/forgot-password" element={<AdminForgotPassword />} />
-            <Route path="reset-password" element={<ResetPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             
             {/* Dashboard route with nested routes */}
             <Route path="/dashboard" element={<Dashboard />}>
