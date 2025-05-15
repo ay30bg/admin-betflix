@@ -72,18 +72,28 @@ function RoundList() {
   });
 
   const setManualOutcomeMutation = useMutation({
-    mutationFn: ({ period, result }) => setManualRoundOutcome(period, result),
-    onSuccess: (result, { period }) => {
-      console.log('setManualOutcome success:', { period, result });
-      queryClient.setQueryData(['recentRounds'], (old) =>
-        old ? old.map((r) => (r.period === period ? { ...r, resultNumber: result.resultNumber, resultColor: result.resultColor } : r)) : old
-      );
-      queryClient.setQueryData(['currentRound'], (old) =>
-        old && old.period === period ? { ...old, result: { resultNumber: result.resultNumber, resultColor: result.resultColor } } : old
-      );
-      setError('');
-      closeManualSetModal();
-    },
+  mutationFn: ({ period, result }) => setManualRoundOutcome(period, result),
+  onSuccess: (result, { period }) => {
+    console.log('setManualOutcome success:', { period, result });
+    queryClient.setQueryData(['recentRounds'], (old) =>
+      old
+        ? old.map((r) =>
+            r.period === period
+              ? { ...r, resultNumber: result.resultNumber, resultColor: result.resultColor }
+              : r
+          )
+        : old
+    );
+    queryClient.setQueryData(['currentRound'], (old) =>
+      old && old.period === period
+        ? { ...old, result: { resultNumber: result.resultNumber, resultColor: result.resultColor } }
+        : old
+    );
+    setError('');
+    closeManualSetModal();
+  },
+  // ... other handlers
+
     onError: (err) => {
       const errorMessage = err.error || err.message || 'Failed to set outcome';
       console.error('setManualOutcome error:', err);
