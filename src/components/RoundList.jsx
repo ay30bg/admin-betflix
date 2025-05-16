@@ -29,47 +29,47 @@ function RoundList() {
     },
   });
 
-  const { data: recentRounds, isLoading: isRecentLoading } = useQuery({
-    queryKey: ['recentRounds'],
-    queryFn: async () => {
-      const now = Date.now();
-      const roundDuration = 60 * 1000;
-      const periods = [
-        `round-${Math.floor((now - roundDuration) / roundDuration) * roundDuration}`,
-        `round-${Math.floor((now - 2 * roundDuration) / roundDuration) * roundDuration}`,
-      ];
-      const results = await Promise.all(
-        periods.map(async (period) => {
-          try {
-            const result = await fetchBetResult(period);
-            return {
-              period,
-              expiresAt: new Date(parseInt(period.split('-')[1]) + roundDuration).toISOString(),
-              resultNumber: result.bet?.resultNumber,
-              resultColor: result.bet?.resultColor,
-            };
-          } catch (err) {
-            console.warn('fetchBetResult failed for period:', period, err);
-            return null;
-          }
-        })
-      );
-      return results.filter((result) => result);
-    },
-    onError: (err) => {
-      const errorMessage = err.error || 'Failed to fetch recent rounds';
-      console.error('recentRounds error:', err);
-      setError(errorMessage);
-      if (errorMessage.includes('Unauthorized') || errorMessage.includes('Invalid token')) {
-        setTimeout(() => {
-          localStorage.removeItem('adminToken');
-          navigate('/');
-        }, 3000);
-      } else {
-        setTimeout(() => setError(''), 5000);
-      }
-    },
-  });
+  // const { data: recentRounds, isLoading: isRecentLoading } = useQuery({
+  //   queryKey: ['recentRounds'],
+  //   queryFn: async () => {
+  //     const now = Date.now();
+  //     const roundDuration = 60 * 1000;
+  //     const periods = [
+  //       `round-${Math.floor((now - roundDuration) / roundDuration) * roundDuration}`,
+  //       `round-${Math.floor((now - 2 * roundDuration) / roundDuration) * roundDuration}`,
+  //     ];
+  //     const results = await Promise.all(
+  //       periods.map(async (period) => {
+  //         try {
+  //           const result = await fetchBetResult(period);
+  //           return {
+  //             period,
+  //             expiresAt: new Date(parseInt(period.split('-')[1]) + roundDuration).toISOString(),
+  //             resultNumber: result.bet?.resultNumber,
+  //             resultColor: result.bet?.resultColor,
+  //           };
+  //         } catch (err) {
+  //           console.warn('fetchBetResult failed for period:', period, err);
+  //           return null;
+  //         }
+  //       })
+  //     );
+  //     return results.filter((result) => result);
+  //   },
+  //   onError: (err) => {
+  //     const errorMessage = err.error || 'Failed to fetch recent rounds';
+  //     console.error('recentRounds error:', err);
+  //     setError(errorMessage);
+  //     if (errorMessage.includes('Unauthorized') || errorMessage.includes('Invalid token')) {
+  //       setTimeout(() => {
+  //         localStorage.removeItem('adminToken');
+  //         navigate('/');
+  //       }, 3000);
+  //     } else {
+  //       setTimeout(() => setError(''), 5000);
+  //     }
+  //   },
+  // });
 
   const setManualOutcomeMutation = useMutation({
   mutationFn: ({ period, result }) => setManualRoundOutcome(period, result),
