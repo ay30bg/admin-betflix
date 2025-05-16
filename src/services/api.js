@@ -302,8 +302,7 @@ export const setManualRoundOutcome = async (period, result) => {
     if (!period || !result) {
       throw new Error('Period and result are required');
     }
-    // const response = await api.post(`/rounds/${period}/set-outcome`, result);
-     const response = await api.post(`/rounds/:period/set-outcome`, result);
+    const response = await api.post(`/rounds/${period}/set-outcome`, result);
     console.log('setManualRoundOutcome response:', response);
     if (!response.result) {
       console.warn('Unexpected response structure:', response);
