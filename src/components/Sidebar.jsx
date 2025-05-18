@@ -58,7 +58,7 @@ const Sidebar = () => {
         </li>
         <li>
           <NavLink
-            to="/dashboard/activity" // Updated path
+            to="/dashboard/support" // Updated path
             className={({ isActive }) => `sidebar-item ${isActive ? 'active' : ''}`}
           >
             <FaPhone  className="sidebar-icon" />
