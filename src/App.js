@@ -38,6 +38,7 @@ function App() {
               <Route path="transactions" element={<Transactions />} />
               <Route path="activity" element={<ActivityLogs />} />
               <Route path="set-round-outcome" element={<SetRoundOutcome />} />
+              <Route path="support" element={<Support />} />
             </Route>
           </Routes>
         </div>
