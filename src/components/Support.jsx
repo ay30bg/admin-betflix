@@ -1,6 +1,6 @@
 // components/Support/Support.jsx
 import React, { useState } from 'react';
-import './styles/Support.css';
+import '../styles/Support.css';
 
 // Sample FAQ data
 const faqs = [
