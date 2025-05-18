@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { FiHome, FiUsers, FiDollarSign, FiBarChart2, FiLayers, FaPhone  } from 'react-icons/fi';
+import { FaPhone } from 'react-icons/fa';
 
 const Sidebar = () => {
   return (
