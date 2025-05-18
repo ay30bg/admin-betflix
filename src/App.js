@@ -12,6 +12,7 @@ import SetRoundOutcome from './components/SetRoundOutcome';
 import Signup from './components/SignUp';
 import ResetPassword from './components/ResetPassword';
 import AdminForgotPassword from './components/AdminForgotPassword';
+import Support from './components/Support';
 import './App.css';
 
 // Create a QueryClient instance
