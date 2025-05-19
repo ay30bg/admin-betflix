@@ -1,6 +1,6 @@
 // components/Support/Support.jsx
 import React, { useState } from 'react';
-import '../styles/Support.css';
+import './Support.css';
 
 // Mock user messages data
 const initialMessages = [
@@ -95,14 +95,14 @@ const Support = () => {
 
   return (
     <div className="support-container">
-      <h1>Admin Support - User Messages</h1>
+      <h1>Admin Support Dashboard</h1>
 
       <div className="support-layout">
         {/* Message List */}
         <section className="message-list">
           <h2>User Messages</h2>
           {messages.length === 0 ? (
-            <p>No messages to display.</p>
+            <p className="empty-state">No messages to display.</p>
           ) : (
             <ul>
               {messages.map((message) => (
@@ -130,7 +130,7 @@ const Support = () => {
         <section className="message-details">
           {selectedMessage ? (
             <>
-              <h2>Message Details</h2>
+              <h2>Conversation</h2>
               <div className="message-content">
                 <div className="message-meta">
                   <p><strong>From:</strong> {selectedMessage.username}</p>
@@ -143,13 +143,16 @@ const Support = () => {
                 </div>
                 {selectedMessage.replies.length > 0 && (
                   <div className="replies">
-                    <h3>Replies</h3>
+                    <h3>Previous Replies</h3>
                     {selectedMessage.replies.map((reply) => (
                       <div
                         key={reply.id}
                         className={`reply ${reply.sender === 'admin' ? 'reply-admin' : 'reply-user'}`}
                       >
-                        <p><strong>{reply.sender === 'admin' ? 'Admin' : selectedMessage.username}:</strong> {reply.message}</p>
+                        <p>
+                          <strong>{reply.sender === 'admin' ? 'You' : selectedMessage.username}:</strong>{' '}
+                          {reply.message}
+                        </p>
                         <p className="reply-timestamp">{formatTimestamp(reply.timestamp)}</p>
                       </div>
                     ))}
@@ -161,11 +164,11 @@ const Support = () => {
               <form onSubmit={handleReplySubmit} className="reply-form">
                 <h3>Reply to {selectedMessage.username}</h3>
                 <div className="form-group">
-                  <label htmlFor="replyText">Your Reply</label>
                   <textarea
                     id="replyText"
                     value={replyText}
                     onChange={(e) => setReplyText(e.target.value)}
+                    placeholder="Type your reply..."
                     required
                     rows="4"
                   ></textarea>
@@ -176,7 +179,7 @@ const Support = () => {
               </form>
             </>
           ) : (
-            <p>Select a message to view details and reply.</p>
+            <p className="empty-state">Select a message to view and respond.</p>
           )}
         </section>
       </div>
