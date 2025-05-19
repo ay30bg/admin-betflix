@@ -1,6 +1,6 @@
 // components/Support/Support.jsx
 import React, { useState } from 'react';
-import './Support.css';
+import '../styles/Support.css';
 
 // Mock user messages data
 const initialMessages = [
