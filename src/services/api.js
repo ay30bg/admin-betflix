@@ -171,9 +171,18 @@ export const resetPassword = async (token, password) => {
  * Fetches all users
  * @returns {Promise<any[]>}
  */
-export const getAllUsers = async () => {
+/**
+ * Fetches all users with optional search
+ * @param {Object} options
+ * @param {string} [options.search=''] - Search term for username or email
+ * @returns {Promise<any[]>}
+ */
+export const getAllUsers = async ({ search = '' } = {}) => {
   try {
-    const response = await api.get('/admin/users');
+    const params = new URLSearchParams();
+    if (search) params.append('search', search);
+
+    const response = await api.get(`/admin/users?${params.toString()}`);
     return response;
   } catch (err) {
     console.error('Get all users error:', err);
