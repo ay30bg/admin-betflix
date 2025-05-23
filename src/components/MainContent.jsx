@@ -213,8 +213,8 @@ function MainContent() {
   const [filter, setFilter] = useState('7d');
   const [metrics, setMetrics] = useState({
     totalUsers: 0,
-    totalRevenue: 0,
-    activeRounds: 0,
+    totalRevenue: 12345.67, // Hardcoded value, replace as needed
+    activeRounds: 56, // Hardcoded, replace with API call when available
   });
   const [chartData, setChartData] = useState({
     labels: [],
@@ -230,7 +230,7 @@ function MainContent() {
     const fetchAnalyticsData = async () => {
       try {
         // Get the JWT token from localStorage
-        const token = localStorage.getItem('adminToken'); // Changed from 'token' to 'adminToken'
+        const token = localStorage.getItem('adminToken');
 
         // Check if token exists
         if (!token) {
@@ -251,21 +251,6 @@ function MainContent() {
         }
 
         const usersData = await usersResponse.json();
-
-        // Fetch total revenue from NOWPayments
-        const revenueResponse = await fetch('https://betflix-backend.vercel.app/api/admin/total-revenue', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!revenueResponse.ok) {
-          throw new Error('Failed to fetch total revenue');
-        }
-
-        const revenueData = await revenueResponse.json();
 
         // Fetch registration data
         const registrationsResponse = await fetch(
@@ -305,8 +290,8 @@ function MainContent() {
         // Update metrics
         const updatedMetrics = {
           totalUsers: usersData.totalUsers || 0,
-          totalRevenue: revenueData.totalRevenue || 0,
-          activeRounds: 56, // Replace with API call when available
+          totalRevenue: metrics.totalRevenue, // Keep hardcoded value
+          activeRounds: metrics.activeRounds, // Keep hardcoded value
         };
 
         setMetrics(updatedMetrics);
@@ -315,7 +300,7 @@ function MainContent() {
       } catch (err) {
         console.error('Error fetching analytics data:', err.message);
         setError('Unable to load analytics data. Please try again later.');
-        setMetrics({ totalUsers: 0, totalRevenue: 0, activeRounds: 0 });
+        setMetrics({ totalUsers: 0, totalRevenue: 12345.67, activeRounds: 56 });
         setChartData({ labels: [], datasets: [] });
         setLoading(false);
       }
@@ -353,7 +338,7 @@ function MainContent() {
           </div>
           <div className="stat-card">
             <h3>Total Revenue</h3>
-            <p>${metrics.totalRevenue}</p>
+            <p>${metrics.totalRevenue.toFixed(2)}</p>
           </div>
           <div className="stat-card">
             <h3>Active Rounds</h3>
