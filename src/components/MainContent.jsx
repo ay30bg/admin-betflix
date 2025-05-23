@@ -213,7 +213,7 @@ function MainContent() {
   const [filter, setFilter] = useState('7d');
   const [metrics, setMetrics] = useState({
     totalUsers: 0,
-    totalRevenue: 0,
+    totalRevenue: 12500, // Mock data for total revenue
     activeRounds: 0,
   });
   const [chartData, setChartData] = useState({
@@ -283,21 +283,6 @@ function MainContent() {
 
         const activeRoundsData = await activeRoundsResponse.json();
 
-        // // Fetch total revenue
-        // const revenueResponse = await fetch('https://betflix-backend.vercel.app/api/admin/total-revenue', {
-        //   method: 'GET',
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //     'Authorization': `Bearer ${token}`,
-        //   },
-        // });
-
-        // if (!revenueResponse.ok) {
-        //   throw new Error('Failed to fetch total revenue');
-        // }
-
-        // const revenueData = await revenueResponse.json();
-
         // Prepare chart data
         const labels = registrations.map((item) => item.date);
         const data = registrations.map((item) => item.count);
@@ -318,7 +303,7 @@ function MainContent() {
         // Update metrics
         const updatedMetrics = {
           totalUsers: usersData.totalUsers || 0,
-          totalRevenue: revenueData.totalRevenue || 0,
+          totalRevenue: 12500, // Mock data for total revenue
           activeRounds: activeRoundsData.activeRounds || 0,
         };
 
@@ -328,7 +313,7 @@ function MainContent() {
       } catch (err) {
         console.error('Error fetching analytics data:', err);
         setError('Unable to load analytics data. Please try again later.');
-        setMetrics({ totalUsers: 0, totalRevenue: 0, activeRounds: 0 });
+        setMetrics({ totalUsers: 0, totalRevenue: 12500, activeRounds: 0 }); // Mock data for total revenue
         setChartData({ labels: [], datasets: [] });
         setLoading(false);
       }
