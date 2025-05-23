@@ -269,7 +269,7 @@ function MainContent() {
         const { registrations } = await registrationsResponse.json();
 
         // Fetch active rounds
-        const activeRoundsResponse = await fetch('https://betflix-backend.vercel.app/api/analytics/active-rounds', {
+        const activeRoundsResponse = await fetch('https://betflix-backend.vercel.app/api/admin/active-rounds', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
