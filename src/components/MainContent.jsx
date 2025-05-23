@@ -230,7 +230,7 @@ function MainContent() {
     const fetchAnalyticsData = async () => {
       try {
         // Get the JWT token from localStorage
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('adminToken'); // Changed from 'token' to 'adminToken'
 
         // Check if token exists
         if (!token) {
