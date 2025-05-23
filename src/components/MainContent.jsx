@@ -230,7 +230,7 @@ function MainContent() {
     const fetchAnalyticsData = async () => {
       try {
         // Get JWT token from localStorage (or your auth mechanism)
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('adminToken');
         if (!token) {
           throw new Error('No authentication token found');
         }
