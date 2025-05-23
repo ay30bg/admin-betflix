@@ -284,7 +284,7 @@ function MainContent() {
         const activeRoundsData = await activeRoundsResponse.json();
 
         // Fetch total revenue
-        const revenueResponse = await fetch('https://betflix-backend.vercel.app/api/analytics/total-revenue', {
+        const revenueResponse = await fetch('https://betflix-backend.vercel.app/api/admin/total-revenue', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
