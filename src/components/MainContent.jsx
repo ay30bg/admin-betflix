@@ -283,20 +283,20 @@ function MainContent() {
 
         const activeRoundsData = await activeRoundsResponse.json();
 
-        // Fetch total revenue
-        const revenueResponse = await fetch('https://betflix-backend.vercel.app/api/admin/total-revenue', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-          },
-        });
+        // // Fetch total revenue
+        // const revenueResponse = await fetch('https://betflix-backend.vercel.app/api/admin/total-revenue', {
+        //   method: 'GET',
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //     'Authorization': `Bearer ${token}`,
+        //   },
+        // });
 
-        if (!revenueResponse.ok) {
-          throw new Error('Failed to fetch total revenue');
-        }
+        // if (!revenueResponse.ok) {
+        //   throw new Error('Failed to fetch total revenue');
+        // }
 
-        const revenueData = await revenueResponse.json();
+        // const revenueData = await revenueResponse.json();
 
         // Prepare chart data
         const labels = registrations.map((item) => item.date);
