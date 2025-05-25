@@ -36,7 +36,7 @@ function App() {
               <Route index element={<MainContent />} />
               <Route path="rounds" element={<Rounds />} />
               <Route path="users" element={<Users />} />
-              <Route path="withdrawal" element={<Transactions />} />
+              <Route path="withdrawals" element={<Transactions />} />
               <Route path="deposits" element={<Deposits />} />
               <Route path="activity" element={<ActivityLogs />} />
               <Route path="set-round-outcome" element={<SetRoundOutcome />} />
