@@ -1,7 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { FiHome, FiUsers, FiDollarSign, FiBarChart2, FiLayers } from 'react-icons/fi';
-import { FaPhone } from 'react-icons/fa';
+import { FiHome, FiUsers, FiDollarSign, FiBarChart2, FiLayers, FiCreditCard, FiPhone } from 'react-icons/fi';
 
 const Sidebar = () => {
   return (
@@ -43,7 +42,7 @@ const Sidebar = () => {
             to="/dashboard/deposits" // Updated path
             className={({ isActive }) => `sidebar-item ${isActive ? 'active' : ''}`}
           >
-            <FiUsers className="sidebar-icon" />
+            <FiCreditCard className="sidebar-icon" />
             <span>Deposits</span>
           </NavLink>
         </li>
@@ -70,7 +69,7 @@ const Sidebar = () => {
             to="/dashboard/support" // Updated path
             className={({ isActive }) => `sidebar-item ${isActive ? 'active' : ''}`}
           >
-            <FaPhone  className="sidebar-icon" />
+            <FiPhone  className="sidebar-icon" />
             <span>Support</span>
           </NavLink>
         </li>
