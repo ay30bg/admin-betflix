@@ -7,7 +7,7 @@ const API_URL = process.env.REACT_APP_API_URL || 'https://betflix-backend.vercel
 const fetchPendingDeposits = async () => {
   const token = localStorage.getItem('adminToken');
   if (!token) throw new Error('Authentication required. Please log in as admin.');
-  const response = await fetch(`${API_URL}/api/transactions/crypto-deposit`, {
+  const response = await fetch(`${API_URL}/api/admin/crypto-deposit`, {
     headers: {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
@@ -23,7 +23,7 @@ const fetchPendingDeposits = async () => {
 const completeDeposit = async ({ paymentId }) => {
   const token = localStorage.getItem('adminToken');
   if (!token) throw new Error('Authentication required. Please log in as admin.');
-  const response = await fetch(`${API_URL}/api/transactions/webhook`, {
+  const response = await fetch(`${API_URL}/api/admin/transactions/webhook`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
