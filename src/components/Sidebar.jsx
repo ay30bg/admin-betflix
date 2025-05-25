@@ -49,11 +49,11 @@ const Sidebar = () => {
         </li>
         <li>
           <NavLink
-            to="/dashboard/transactions" // Updated path
+            to="/dashboard/withdrawals" // Updated path
             className={({ isActive }) => `sidebar-item ${isActive ? 'active' : ''}`}
           >
             <FiDollarSign className="sidebar-icon" />
-            <span>Transactions</span>
+            <span>Withdrawals</span>
           </NavLink>
         </li>
         <li>
