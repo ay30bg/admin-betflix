@@ -40,6 +40,15 @@ const Sidebar = () => {
         </li>
         <li>
           <NavLink
+            to="/dashboard/deposits" // Updated path
+            className={({ isActive }) => `sidebar-item ${isActive ? 'active' : ''}`}
+          >
+            <FiUsers className="sidebar-icon" />
+            <span>Deposits</span>
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
             to="/dashboard/transactions" // Updated path
             className={({ isActive }) => `sidebar-item ${isActive ? 'active' : ''}`}
           >
