@@ -5,6 +5,7 @@ import Dashboard from './components/Dashboard';
 import Login from './components/Login';
 import Rounds from './components/Rounds';
 import Users from './components/Users';
+import Deposits from './components/Deposit';
 import Transactions from './components/Transactions';
 import MainContent from './components/MainContent';
 import ActivityLogs from './ActivityLogs';
@@ -36,6 +37,7 @@ function App() {
               <Route path="rounds" element={<Rounds />} />
               <Route path="users" element={<Users />} />
               <Route path="transactions" element={<Transactions />} />
+              <Route path="deposits" element={<Deposits />} />
               <Route path="activity" element={<ActivityLogs />} />
               <Route path="set-round-outcome" element={<SetRoundOutcome />} />
               <Route path="support" element={<Support />} />
