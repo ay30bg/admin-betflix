@@ -79,7 +79,7 @@ const styles = `
   .filter-container {
     display: flex;
     align-items: center;
-    background-color: red;
+    background-color: none;
     border-radius: 2px;
   }
 
