@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { FiHome, FiUsers, FiDollarSign, FiBarChart2, FiLayers, FiCreditCard, FiPhone } from 'react-icons/fi';
+import { FiHome, FiUsers, FiDollarSign, FiBarChart2, FiLayers, FiCreditCard, FiPhone, FiActivity  } from 'react-icons/fi';
 
 const Sidebar = () => {
   return (
@@ -69,7 +69,7 @@ const Sidebar = () => {
             to="/dashboard/referrals" // Updated path
             className={({ isActive }) => `sidebar-item ${isActive ? 'active' : ''}`}
           >
-            <FiBarChart2 className="sidebar-icon" />
+            <FiActivity className="sidebar-icon" />
             <span>Referrals</span>
           </NavLink>
         </li>
