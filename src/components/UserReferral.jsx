@@ -91,7 +91,7 @@ const styles = `
   }
 
   .table th {
-    background-color: #2d3748;
+    background-color: #3b82f6;
     font-weight: bold;
   }
 
