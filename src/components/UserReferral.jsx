@@ -344,11 +344,12 @@ import { useQuery } from '@tanstack/react-query';
 const API_URL = process.env.REACT_APP_API_URL || 'https://betflix-backend.vercel.app';
 
 // API Function to fetch users with referrals
-const fetchUsersWithReferrals = async () => {
+const fetchUsersWithReferrals = async ({ search = '' }) => {
   const token = localStorage.getItem('adminToken');
   if (!token) throw new Error('Authentication required. Please log in as admin.');
 
-  const response = await fetch(`${API_URL}/api/admin/referrals`, {
+  const query = search ? `?search=${encodeURIComponent(search)}` : '';
+  const response = await fetch(`${API_URL}/api/admin/referrals${query}`, {
     headers: {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
@@ -377,7 +378,7 @@ const fetchUsersWithReferrals = async () => {
   })) : [];
 };
 
-// Vanilla CSS styles (updated with search and pagination styles)
+// Vanilla CSS styles
 const styles = `
   .main-content {
     max-width: 1200px;
@@ -573,8 +574,8 @@ const UserReferrals = () => {
 
   // Fetch users with referrals using React Query
   const { data: users = [], isLoading, error, refetch } = useQuery({
-    queryKey: ['usersWithReferrals'],
-    queryFn: fetchUsersWithReferrals,
+    queryKey: ['usersWithReferrals', searchTerm],
+    queryFn: () => fetchUsersWithReferrals({ search: searchTerm }),
     onError: (err) => {
       setNotification({
         type: 'error',
@@ -589,19 +590,12 @@ const UserReferrals = () => {
     console.log('Processed users data:', users);
   }, [users]);
 
-  // Filter users based on search term
-  const filteredUsers = users.filter(
-    (user) =>
-      user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
   // Pagination calculations
-  const totalItems = filteredUsers.length;
+  const totalItems = users.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const paginatedUsers = filteredUsers.slice(startIndex, endIndex);
+  const paginatedUsers = users.slice(startIndex, endIndex);
 
   // Filter referrals based on status
   const getFilteredReferrals = (referrals) => {
