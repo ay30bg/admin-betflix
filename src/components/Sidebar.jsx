@@ -66,6 +66,15 @@ const Sidebar = () => {
         </li>
         <li>
           <NavLink
+            to="/dashboard/referrals" // Updated path
+            className={({ isActive }) => `sidebar-item ${isActive ? 'active' : ''}`}
+          >
+            <FiBarChart2 className="sidebar-icon" />
+            <span>Referrals</span>
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
             to="/dashboard/support" // Updated path
             className={({ isActive }) => `sidebar-item ${isActive ? 'active' : ''}`}
           >
