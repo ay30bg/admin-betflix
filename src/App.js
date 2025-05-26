@@ -14,6 +14,7 @@ import Signup from './components/SignUp';
 import ResetPassword from './components/ResetPassword';
 import AdminForgotPassword from './components/AdminForgotPassword';
 import Support from './components/Support';
+import UserReferral from './components/UserReferral';
 import './App.css';
 
 // Create a QueryClient instance
@@ -36,6 +37,7 @@ function App() {
               <Route index element={<MainContent />} />
               <Route path="rounds" element={<Rounds />} />
               <Route path="users" element={<Users />} />
+              <Route path="referrals" element={<UserReferral />} />
               <Route path="withdrawals" element={<Transactions />} />
               <Route path="deposits" element={<Deposits />} />
               <Route path="activity" element={<ActivityLogs />} />
