@@ -1,79 +1,114 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import { Button, TextField, Box, Typography, Paper, IconButton } from '@mui/material';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import React, { useState, useEffect } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-const RedEnvelopeGenerator = () => {
+const API_URL = process.env.REACT_APP_API_URL || 'https://betflix-backend.vercel.app';
+
+// API Function to generate red envelope link
+const generateRedEnvelope = async () => {
+  const token = localStorage.getItem('adminToken');
+  if (!token) throw new Error('Authentication required. Please log in as admin.');
+  const response = await fetch(`${API_URL}/api/admin/red-envelope`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({}),
+  });
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+    throw new Error(errorData.error || `Failed to generate red envelope link: ${response.status}`);
+  }
+  return response.json();
+};
+
+function RedEnvelopeGenerator() {
+  const queryClient = useQueryClient();
   const [link, setLink] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [notification, setNotification] = useState(null);
 
-  const handleGenerateLink = async () => {
-    setLoading(true);
-    try {
-      const token = localStorage.getItem('adminToken'); // Assuming token is stored in localStorage
-      const response = await axios.post(
-        '/api/admin/red-envelope', // Adjust endpoint as per your routing
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+  // Mutation for generating red envelope link
+  const mutation = useMutation({
+    mutationFn: generateRedEnvelope,
+    onSuccess: (data) => {
+      setLink(data.link);
+      setNotification({
+        type: 'success',
+        message: 'Red envelope link generated successfully!',
+      });
+      queryClient.invalidateQueries(['redEnvelopeLink']); // Optional: Invalidate if you want to cache the link
+    },
+    onError: (err) => {
+      setNotification({
+        type: 'error',
+        message: err.message || 'Failed to generate red envelope link',
+      });
+    },
+  });
 
-      setLink(response.data.link);
-      toast.success('Red envelope link generated successfully!');
-    } catch (error) {
-      console.error('Error generating red envelope link:', error);
-      toast.error(error.response?.data?.error || 'Failed to generate red envelope link');
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  // Handle copy to clipboard
   const handleCopyLink = () => {
     navigator.clipboard.writeText(link);
-    toast.success('Link copied to clipboard!');
+    setNotification({
+      type: 'success',
+      message: 'Link copied to clipboard!',
+    });
   };
 
+  // Clear notifications after 3 seconds
+  useEffect(() => {
+    if (notification) {
+      const timeout = setTimeout(() => setNotification(null), 3000);
+      return () => clearTimeout(timeout);
+    }
+  }, [notification]);
+
   return (
-    <Paper elevation={3} sx={{ p: 3, maxWidth: 600, mx: 'auto', mt: 4 }}>
-      <Typography variant="h5" gutterBottom>
-        Generate Red Envelope Link
-      </Typography>
-      <Typography variant="body2" color="textSecondary" gutterBottom>
-        Click the button below to create a new red envelope link for users to claim.
-      </Typography>
-      <Box sx={{ mt: 2 }}>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleGenerateLink}
-          disabled={loading}
-          sx={{ mb: 2 }}
+    <div className="main-content">
+      <h2>Generate Red Envelope Link</h2>
+      {notification && (
+        <div className={`result ${notification.type}`} role="alert" aria-live="polite">
+          {notification.message}
+        </div>
+      )}
+      {mutation.isLoading && (
+        <div className="loading-spinner" aria-live="polite">
+          Generating...
+        </div>
+      )}
+      <div className="table-container">
+        <p>Create a new red envelope link for users to claim.</p>
+        <button
+          className="action-btn approve-btn"
+          onClick={() => mutation.mutate()}
+          disabled={mutation.isLoading}
+          aria-label="Generate red envelope link"
         >
-          {loading ? 'Generating...' : 'Generate Link'}
-        </Button>
+          {mutation.isLoading ? 'Generating...' : 'Generate Link'}
+        </button>
         {link && (
-          <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
-            <TextField
-              fullWidth
-              label="Red Envelope Link"
+          <div className="filter-container" style={{ marginTop: '1rem', display: 'flex', alignItems: 'center' }}>
+            <input
+              type="text"
               value={link}
-              InputProps={{
-                readOnly: true,
-              }}
-              variant="outlined"
+              readOnly
+              className="filter-input"
+              style={{ flexGrow: 1, marginRight: '0.5rem' }}
+              aria-label="Generated red envelope link"
             />
-            <IconButton onClick={handleCopyLink} sx={{ ml: 1 }}>
-              <ContentCopyIcon />
-            </IconButton>
-          </Box>
+            <button
+              className="action-btn"
+              onClick={handleCopyLink}
+              disabled={mutation.isLoading}
+              aria-label="Copy red envelope link to clipboard"
+            >
+              Copy
+            </button>
+          </div>
         )}
-      </Box>
-    </Paper>
+      </div>
+    </div>
   );
-};
+}
 
 export default RedEnvelopeGenerator;
