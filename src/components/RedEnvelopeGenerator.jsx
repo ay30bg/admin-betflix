@@ -1,104 +1,78 @@
-// src/components/RedEnvelopeGenerator.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import { Button, TextField, Box, Typography, Paper, IconButton } from '@mui/material';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 const RedEnvelopeGenerator = () => {
-  // State for form inputs
-  const [formData, setFormData] = useState({
-    amount: '',
-    recipients: '',
-  });
-  const [link, setLink] = useState(null);
-  const [error, setError] = useState(null);
+  const [link, setLink] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // Handle form input changes
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError(null);
-    setLink(null);
+  const handleGenerateLink = async () => {
     setLoading(true);
-
     try {
-      // Get JWT token from localStorage (or your auth method)
-      const token = localStorage.getItem('token');
-
-      // Make API call to create red envelope
+      const token = localStorage.getItem('adminToken'); // Assuming token is stored in localStorage
       const response = await axios.post(
-        '/api/red-envelope/create', // Adjust to your backend URL
-        {
-          amount: parseFloat(formData.amount),
-          recipients: parseInt(formData.recipients, 10),
-        },
+        '/api/admin/red-envelope', // Adjust endpoint as per your routing
+        {},
         {
           headers: {
-            Authorization: `Bearer ${token}`, // Include token for authenticateToken middleware
+            Authorization: `Bearer ${token}`,
           },
         }
       );
 
-      // Set the generated link
       setLink(response.data.link);
-    } catch (err) {
-      // Handle errors
-      setError(err.response?.data?.message || 'Failed to generate red envelope link');
+      toast.success('Red envelope link generated successfully!');
+    } catch (error) {
+      console.error('Error generating red envelope link:', error);
+      toast.error(error.response?.data?.error || 'Failed to generate red envelope link');
     } finally {
       setLoading(false);
     }
   };
 
-  return (
-    <div className="red-envelope-generator">
-      <h2>Generate Red Envelope Link</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="amount">Total Amount ($):</label>
-          <input
-            type="number"
-            id="amount"
-            name="amount"
-            value={formData.amount}
-            onChange={handleChange}
-            min="0.01"
-            step="0.01"
-            required
-            placeholder="Enter total amount"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="recipients">Number of Recipients:</label>
-          <input
-            type="number"
-            id="recipients"
-            name="recipients"
-            value={formData.recipients}
-            onChange={handleChange}
-            min="1"
-            required
-            placeholder="Enter number of recipients"
-          />
-        </div>
-        <button type="submit" disabled={loading}>
-          {loading ? 'Generating...' : 'Generate Link'}
-        </button>
-      </form>
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(link);
+    toast.success('Link copied to clipboard!');
+  };
 
-      {link && (
-        <div className="success-message">
-          <h3>Red Envelope Link Generated:</h3>
-          <a href={link} target="_blank" rel="noopener noreferrer">
-            {link}
-          </a>
-        </div>
-      )}
-      {error && <div className="error-message">{error}</div>}
-    </div>
+  return (
+    <Paper elevation={3} sx={{ p: 3, maxWidth: 600, mx: 'auto', mt: 4 }}>
+      <Typography variant="h5" gutterBottom>
+        Generate Red Envelope Link
+      </Typography>
+      <Typography variant="body2" color="textSecondary" gutterBottom>
+        Click the button below to create a new red envelope link for users to claim.
+      </Typography>
+      <Box sx={{ mt: 2 }}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleGenerateLink}
+          disabled={loading}
+          sx={{ mb: 2 }}
+        >
+          {loading ? 'Generating...' : 'Generate Link'}
+        </Button>
+        {link && (
+          <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
+            <TextField
+              fullWidth
+              label="Red Envelope Link"
+              value={link}
+              InputProps={{
+                readOnly: true,
+              }}
+              variant="outlined"
+            />
+            <IconButton onClick={handleCopyLink} sx={{ ml: 1 }}>
+              <ContentCopyIcon />
+            </IconButton>
+          </Box>
+        )}
+      </Box>
+    </Paper>
   );
 };
 
