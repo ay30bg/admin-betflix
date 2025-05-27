@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { FiHome, FiUsers, FiDollarSign, FiBarChart2, FiLayers, FiCreditCard, FiPhone, FiActivity  } from 'react-icons/fi';
+import { FiHome, FiUsers, FiDollarSign, FiBarChart2, FiLayers, FiCreditCard, FiPhone, FiActivity, FiEnvelope  } from 'react-icons/fi';
 
 const Sidebar = () => {
   return (
@@ -78,7 +78,7 @@ const Sidebar = () => {
             to="/dashboard/redenvelope" // Updated path
             className={({ isActive }) => `sidebar-item ${isActive ? 'active' : ''}`}
           >
-            <FiUsers className="sidebar-icon" />
+            <FiEnvelope className="sidebar-icon" />
             <span>Red Envelope</span>
           </NavLink>
         </li>
