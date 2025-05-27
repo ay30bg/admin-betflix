@@ -15,6 +15,7 @@ import ResetPassword from './components/ResetPassword';
 import AdminForgotPassword from './components/AdminForgotPassword';
 import Support from './components/Support';
 import UserReferral from './components/UserReferral';
+import RedEnvelope from './components/RedEnvelopeGenerator';
 import './App.css';
 
 // Create a QueryClient instance
@@ -42,6 +43,7 @@ function App() {
               <Route path="deposits" element={<Deposits />} />
               <Route path="activity" element={<ActivityLogs />} />
               <Route path="set-round-outcome" element={<SetRoundOutcome />} />
+              <Route path="redenvelope" element={<RedEnvelope />} />
               <Route path="support" element={<Support />} />
             </Route>
           </Routes>
