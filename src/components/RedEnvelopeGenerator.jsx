@@ -1,7 +1,6 @@
 // src/components/RedEnvelopeGenerator.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
-import './RedEnvelopeGenerator.css'; // Optional CSS file for styling
 
 const RedEnvelopeGenerator = () => {
   // State for form inputs
