@@ -113,7 +113,7 @@ const styles = `
     font-weight: bold;
   }
 
-  .action-btn {
+  .action-button {
     background: none;
     border: none;
     color: #007bff;
@@ -123,7 +123,7 @@ const styles = `
     margin-right: 10px;
   }
 
-  .action-btn:hover {
+  .action-button:hover {
     color: #0056b3;
   }
 
@@ -372,7 +372,7 @@ const UserReferrals = () => {
                     <td>
                       {user.referrals.length > 0 && (
                         <button
-                          className="action-btn"
+                          className="action-button"
                           onClick={() => toggleReferrals(user.id)}
                           aria-label={`Toggle referrals for ${user.username}`}
                         >
