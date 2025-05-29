@@ -8,7 +8,6 @@ body {
   font-family: 'Arial', sans-serif;
   font-size: 16px;
   line-height: 1.5;
-  max-width: 300px;
 }
 
 .dashboard {
@@ -140,16 +139,17 @@ body {
   transition: margin-left 0.3s ease;
 }
 
+.main-container {
+  margin-left: 260px;
+  flex: 1;
+  transition: margin-left 0.3s ease;
+  overflow-x: hidden;
+}
+
 .main-content {
   padding: 1.875rem;
   background-color: #f5f6fa;
   min-height: calc(100vh - 70px);
-}
-
-.main-content h2 {
-  font-size: 1.5rem;
-  color: #2d3748;
-  margin-bottom: 1.25rem;
 }
 
 /* Analytics Container */
