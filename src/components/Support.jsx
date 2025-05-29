@@ -32,7 +32,7 @@ const Support = () => {
 
     try {
       const token = localStorage.getItem('adminToken');
-      const res = await fetch(`https://betflix-backend.vercel.app/api/admin/support/messages/${selectedMessage.id}/reply`, {
+      const res = await fetch(`https://betflix-backend.vercel.app/api/admin/support/messages/${selectedMessage._id}/reply`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
