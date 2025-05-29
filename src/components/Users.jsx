@@ -159,7 +159,7 @@ function Users() {
                   <td className={`status-${user.status || 'active'}`}>
                     {(user.status || 'active').charAt(0).toUpperCase() + (user.status || 'active').slice(1)}
                   </td>
-                  <td>
+                  <td className="btn-data">
                     <button
                       className="action-btn edit-btn"
                       onClick={() => handleAction(user._id, 'edit')}
