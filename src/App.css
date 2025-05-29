@@ -152,6 +152,10 @@ body {
   min-height: calc(100vh - 70px);
 }
 
+.btn-data{
+  
+}
+
 /* Analytics Container */
 .analytics-container {
   display: flex;
@@ -238,7 +242,7 @@ tr:hover {
   font-weight: 500;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  margin-right: 0.5rem;
+  margin: 1rem;
 }
 
 .edit-btn {
